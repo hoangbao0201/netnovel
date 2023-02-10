@@ -1,0 +1,70 @@
+
+.content {
+    display: flex;
+    position: relative;
+}
+
+.button-search {
+    width: 220px;
+    padding: 5px 8px;
+    border-radius: 4px;
+    cursor: text;
+    -webkit-user-select: none;
+    background-color: #ffff;
+}
+
+.overlay {
+    top: 0px;
+    right: 0px;
+    bottom: 0px;
+    left: 0px;
+    opacity: 0;
+    visibility: hidden;
+    position: fixed;
+    background-color: rgba(0,0,0, 0.1);
+
+    &.show {
+        opacity: 1;
+        visibility: visible;
+    }
+}
+
+.modal-search {
+    width: 100%;
+    max-width: 1000px;
+    height: 500px;
+    margin: auto;
+    margin-top: 60px;
+    padding-top: 20px;
+    background-color: #ffff;
+}
+
+// Form
+
+.form {
+    padding: 20px 40px;
+}
+
+.head {
+
+    .input-search {
+        width: 100%;
+        font-size: 17px;
+        line-height: 1.2;
+        padding: 14px 16px;
+        border-radius: 6px;
+        border: 1px solid #ccc;
+        outline: none;
+    }
+}
+
+.modal-content {
+    margin-top: 25px;
+
+    .card {
+        margin-top: 8px;
+        padding: 15px 15px;
+        border-radius: 10px;
+        border: 1px solid #ccc;
+    }
+}
