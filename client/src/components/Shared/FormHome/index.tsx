@@ -15,12 +15,7 @@ const FormHome = () => {
     return (
         <div className={cx("content")}>
             <div className={cx("list-post")}>
-                <CardsBook />
-                <CardsBook />
-                <CardsBook />
-                <CardsBook />
-                <CardsBook />
-                <CardsBook />
+                {/* <CardsBook /> */}
             </div>
         </div>
     );

@@ -4,7 +4,7 @@ import styles from "./Header.module.scss";
 const cx = classNames.bind(styles);
 
 import { useRef, useState } from "react";
-import { GENRES_NT, RANK_NT } from "@/Constants";
+import { GENRES_NT, RANK_NT } from "@/constants";
 import HeaderSearch from "@/components/Shared/HeaderSearch";
 import useClickOutSide from "@/hook/useClickOutSide";
 

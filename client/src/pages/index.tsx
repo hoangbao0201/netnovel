@@ -1,15 +1,12 @@
 import Head from "next/head";
-import Image from "next/image";
-import { Inter } from "@next/font/google";
-import styles from "@/styles/Home.module.css";
-import MainLayout from "@/components/Layouts/MainLayout";
-import { ReactNode } from "react";
+import { GetServerSideProps, NextPage } from "next";
+
 import WrapperContent from "@/components/Layouts/WrapperContent";
 import FormHome from "@/components/Shared/FormHome";
+import axios from "axios";
 
-const inter = Inter({ subsets: ["latin"] });
+const Home : NextPage = ({ name } : any) => {
 
-export default function Home() {
     return (
         <>
             <Head>
@@ -33,10 +30,16 @@ export default function Home() {
     );
 }
 
-Home.getLayout = (page: ReactNode) => {
-    return (
-        <MainLayout showHeader showFooter>
-            {page}
-        </MainLayout>
-    );
-};
+export const getServerSideProps : GetServerSideProps = async (ctx) => {
+
+    const response = await axios.get("http://localhost:4000/api/users");
+
+    return {
+        props: {
+            name: response.data || null
+        }
+    }
+}
+
+
+export default Home;
