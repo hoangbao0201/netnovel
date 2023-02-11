@@ -1,16 +1,16 @@
 import Link from 'next/link';
 import { NextPage } from 'next';
 import classNames from 'classnames/bind'
-import styles from './CardsBook.module.scss';
+import styles from './CardsNovel.module.scss';
 
 import { iconAuthor } from 'public/icons';
 
 const cx = classNames.bind(styles);
 
-export interface CardsBookProps {
+export interface CardsNovelProps {
     data: any
 }
-const CardsBook : NextPage<CardsBookProps> = ({ data } : CardsBookProps) => {
+const CardsNovel : NextPage<CardsNovelProps> = ({ data } : CardsNovelProps) => {
 
     if(!data) {
         return null;
@@ -19,11 +19,11 @@ const CardsBook : NextPage<CardsBookProps> = ({ data } : CardsBookProps) => {
     return (
        <div className={cx("wrapper")} >
             <div className={cx("container")}>
-                <Link href={`/book/${data.linkBook}` || "/"} className={cx('grid-image')}>
-                    <img className={cx("thumbnail")} src={data.image?.url || "/images/book-default.png"}/>
+                <Link href={`/novel/${data.slugNovel}` || "/"} className={cx('grid-image')}>
+                    <img className={cx("thumbnail")} src={data.image?.url || "/images/novel-default.png"}/>
                 </Link>
                 <div className={cx("detail")}>
-                    <Link className={cx("title-link")} href={`/book/${data.linkBook}` || "/"}>
+                    <Link className={cx("title-link")} href={`/novel/${data.slugNovel}` || "/"}>
                         <h3 className={cx("title")}>
                             {data.title || "Lỗi hiển thị"}
                         </h3>
@@ -45,4 +45,4 @@ const CardsBook : NextPage<CardsBookProps> = ({ data } : CardsBookProps) => {
    )
 }
 
-export default CardsBook
+export default CardsNovel;

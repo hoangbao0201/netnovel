@@ -1,0 +1,52 @@
+* {
+    margin: 0px;
+    padding: 0px;
+    box-sizing: border-box;
+}
+
+a {
+    text-decoration: none;
+}
+
+body {
+    background-color: #f0f7ff;
+}
+
+// Quill JS
+
+.customize-quill-new-drafts {
+    height: 500px;
+    
+    .ql-container {
+        overflow: hidden;
+        border-radius: 6px;
+        background-color: #ffff;
+    }
+    p {
+        font-size: 15px;
+    }
+
+    .ql-editor.ql-blank::before {
+        font-size: 15px;
+        font-style: normal;
+    }
+}
+
+.customize-quill-new-novel,
+.customize-quill-edit-novel {
+    height: 300px;
+    
+    .ql-container {
+        overflow: hidden;
+        border-radius: 6px;
+        background-color: #ffff;
+    }
+    p {
+        font-size: 15px;
+    }
+
+    .ql-editor.ql-blank::before {
+        font-size: 15px;
+        font-style: normal;
+    }
+}

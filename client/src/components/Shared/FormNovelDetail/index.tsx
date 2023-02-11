@@ -1,5 +1,5 @@
 import classNames from "classnames/bind";
-import styles from "./FormBookDetail.module.scss";
+import styles from "./FormNovelDetail.module.scss";
 
 import FormDesciption from "./FormDescription";
 import { NextPage } from "next";
@@ -7,12 +7,12 @@ import WrapperContent from "@/components/Layouts/WrapperContent";
 
 const cx = classNames.bind(styles);
 
-export interface FormBookDetailProps {
-    book?: any;
+export interface FormNovelDetailProps {
+    novel?: any;
 }
-const FormBookDetail: NextPage<FormBookDetailProps> = ({ book }) => {
+const FormNovelDetail: NextPage<FormNovelDetailProps> = ({ novel }) => {
 
-    if(!book) {
+    if(!novel) {
         return null;
     }
     return (
@@ -21,20 +21,20 @@ const FormBookDetail: NextPage<FormBookDetailProps> = ({ book }) => {
                 <div className={cx("thumbnail")}>
                     <img
                         className={cx("image")}
-                        src={book.image?.url || "/images/book-default.png"}
+                        src={novel.image?.url || "/images/novel-default.png"}
                     />
                 </div>
                 <div className={cx("detail")}>
                     <div className={cx("grid-name")}>
-                        <h2 className={cx("title")}>{book.title}</h2>
+                        <h2 className={cx("title")}>{novel.title}</h2>
                     </div>
                     <div className={cx("category")}>
-                        <div className={cx("item")}>{book.author}</div>
-                        <div className={cx("item")}>{book.category}</div>
-                        <div className={cx("item")}>{book.personality}</div>
-                        <div className={cx("item")}>{book.scene}</div>
-                        <div className={cx("item")}>{book.classify}</div>
-                        <div className={cx("item")}>{book.viewFrame}</div>
+                        <div className={cx("item")}>{novel.author}</div>
+                        <div className={cx("item")}>{novel.category}</div>
+                        <div className={cx("item")}>{novel.personality}</div>
+                        <div className={cx("item")}>{novel.scene}</div>
+                        <div className={cx("item")}>{novel.classify}</div>
+                        <div className={cx("item")}>{novel.viewFrame}</div>
                     </div>
 
                     <div className={cx("grid-number")}>
@@ -66,11 +66,11 @@ const FormBookDetail: NextPage<FormBookDetailProps> = ({ book }) => {
                             <button className={cx("button-action", "reading")}>
                                 Đọc tiếp
                             </button>
-                            <button className={cx("button-action", "bookmark")}>
+                            <button className={cx("button-action", "novelmark")}>
                                 Đánh dấu
                             </button>
                             <button
-                                className={cx("button-action", "suggest-book")}
+                                className={cx("button-action", "suggest-novel")}
                             >
                                 Đề cử
                             </button>
@@ -98,7 +98,7 @@ const FormBookDetail: NextPage<FormBookDetailProps> = ({ book }) => {
                         </button>
                     </div>
                     <div className={cx("tab-content")}>
-                        <FormDesciption description={book.description} />
+                        <FormDesciption description={novel.description} />
                     </div>
                 </div>
             </div>
@@ -106,4 +106,4 @@ const FormBookDetail: NextPage<FormBookDetailProps> = ({ book }) => {
     );
 };
 
-export default FormBookDetail;
+export default FormNovelDetail;

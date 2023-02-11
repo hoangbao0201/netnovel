@@ -2,7 +2,7 @@ import { NextPage } from "next";
 import classNames from "classnames/bind";
 import styles from "./FormHome.module.scss";
 
-import CardsBook from "../CardsBook";
+import CardsBook from "../CardsNovel";
 
 const cx = classNames.bind(styles);
 

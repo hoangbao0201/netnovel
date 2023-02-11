@@ -1,21 +1,21 @@
 import { ReactNode } from "react";
 import MainLayout from "@/components/Layouts/MainLayout";
 import WrapperContent from "@/components/Layouts/WrapperContent";
-import FormBookDetail from "@/components/Shared/FormBookDetail";
+import FormNovelDetail from "@/components/Shared/FormNovelDetail";
 
 
-export default function BookDetail() {
+export default function NovelDetail() {
+    
     return (
         <>
             <WrapperContent>
-                <FormBookDetail />
+                <FormNovelDetail />
             </WrapperContent>
-
         </>
     );
 }
 
-BookDetail.getLayout = (page: ReactNode) => {
+NovelDetail.getLayout = (page: ReactNode) => {
     return (
         <MainLayout showHeader showFooter>
             {page}

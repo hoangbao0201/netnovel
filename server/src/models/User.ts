@@ -9,7 +9,16 @@ const UserSchema = new Schema({
     description: { type: String, trim: true },
     email: { type: String, trim: true },
     password: { type: String, trim: true },
-
+    avatar: {
+        url: { type: String },
+        publicdID: { type: String }
+    },
+    followers: [
+        { type: Schema.Types.ObjectId }
+    ]
+    
+}, {
+    timestamps: true
 })
 
-export default mongoose.model("User", UserSchema);
+export default mongoose.model("users", UserSchema);
