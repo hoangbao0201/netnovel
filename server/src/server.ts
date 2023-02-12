@@ -1,10 +1,14 @@
 require("dotenv").config()
 import express from 'express'
 import mongoose from 'mongoose'
+import authRouter from "./routes/auth"
 
 
 const app = express()
 const PORT = 4000
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 const main = async () => {
 
@@ -12,15 +16,8 @@ const main = async () => {
     await mongoose.connect(`mongodb+srv://${process.env.MONGODB_USERNAME}:${process.env.MONGODB_PASSWORD}@netnovel.4shijnr.mongodb.net/?retryWrites=true&w=majority`)
     console.log("MongoDB Connected")
 
-    app.get("/api/users", (_req, res) => {
-        try {
-            res.json({
-                name: "bao"
-            })
-        } catch (error) {
-            res.status(500).json(error)
-        }
-    })
+    // Routes
+    app.use("/api/auth", authRouter);
 
 
     app.listen(PORT, () => {
