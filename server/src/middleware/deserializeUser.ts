@@ -8,7 +8,6 @@ export const deserializeUser = async (
     next: NextFunction
 ) => {
     try {
-deserializeUser
         const authHeader = req.headers.authorization;
         const token = authHeader && authHeader.split(" ")[1];
 
@@ -23,7 +22,7 @@ deserializeUser
 
         await jwt.verify(
             token as string,
-            process.env.SECRET_TOKEN as string,
+            process.env.ACCESS_TOKEN_SETCRET as string,
             async (error: any, user : any ) => {
                 if (error) {
                     res.json({

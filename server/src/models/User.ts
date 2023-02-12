@@ -9,6 +9,9 @@ const UserSchema = new Schema({
     description: { type: String, trim: true },
     email: { type: String, trim: true },
     password: { type: String, trim: true },
+    novels: [
+        { type: Schema.Types.ObjectId, ref: "novels" }
+    ],
     avatar: {
         url: { type: String },
         publicdID: { type: String }

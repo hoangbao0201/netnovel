@@ -22,7 +22,7 @@ const NovelsSchema = new Schema({
 
     // Connect
     Chapters:       { type: Schema.Types.ObjectId, ref: 'chapters' },
-    Poster:         { type: Schema.Types.ObjectId, ref: 'users' }
+    postedBy:         { type: Schema.Types.ObjectId, ref: 'users' }
 
 }, {
     timestamps: true

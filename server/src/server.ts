@@ -1,7 +1,11 @@
 require("dotenv").config()
 import express from 'express'
 import mongoose from 'mongoose'
+
 import authRouter from "./routes/auth"
+import novelRouter from "./routes/novel"
+import userRouter from "./routes/user"
+import chapterRouter from "./routes/chapter"
 
 
 const app = express()
@@ -18,6 +22,9 @@ const main = async () => {
 
     // Routes
     app.use("/api/auth", authRouter);
+    app.use("/api/novels", novelRouter);
+    app.use("/api/users", userRouter);
+    app.use("/api/chapters", chapterRouter);
 
 
     app.listen(PORT, () => {
