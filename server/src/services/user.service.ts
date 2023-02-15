@@ -12,7 +12,6 @@ export const getUserByAccoutHandle = async (accout : string) => {
     const value = accout.includes("@") ? { email: accout } : { username: accout }
 
     const existingUser = await User.findOne(value)
-        .select("-password")
 
     return existingUser;
 }

@@ -54,7 +54,7 @@ export const loginUser = async (req: Request, res: Response) => {
             })
         }
 
-        // Verify password
+        // // Verify password
         const passwordValid = await argon2.verify(existingUser.password as string, password);
         if (!passwordValid) {
             return res.status(400).json({
@@ -75,6 +75,7 @@ export const loginUser = async (req: Request, res: Response) => {
             success: true,
             message: "Login user successful",
             accessToken: accessToken
+            // existingUser: existingUser
             // accout, password
         })
         

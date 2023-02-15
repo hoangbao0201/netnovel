@@ -6,6 +6,7 @@ const NovelsSchema = new Schema({
 
     slug:           { type: String, require: true, index: true },
     title:          { type: String, trim: true },
+    chapterCount:   { type: Number, default: 0 },
     thumbnail: {
         url:        { type: String },
         publicdID:  { type: String }
@@ -21,7 +22,7 @@ const NovelsSchema = new Schema({
     viewFrame:      { type: String, require: true, trim: true },
 
     // Connect
-    Chapters:       { type: Schema.Types.ObjectId, ref: 'chapters' },
+    chapters:       { type: Schema.Types.ObjectId, ref: 'chapters' },
     postedBy:         { type: Schema.Types.ObjectId, ref: 'users' }
 
 }, {
