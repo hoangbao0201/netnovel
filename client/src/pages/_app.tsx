@@ -5,8 +5,10 @@ import type { AppProps } from "next/app";
 import { ReactElement, ReactNode } from "react";
 
 import MainLayout from "@/components/Layouts/MainLayout";
-import NProgress from "nprogress"
+import NProgress from "nprogress";
 import "nprogress/nprogress.css";
+import { Provider } from "react-redux";
+import { store } from "@/redux/store";
 
 type NextPageWithLayout = NextPage & {
     getLayout?: (page: ReactElement) => ReactNode;
@@ -32,7 +34,9 @@ export default function App({ Component, pageProps }: AppPropsWithlayout) {
 
     return (
         <>
-            {getLayout(<Component {...pageProps} />)}
+            <Provider store={store}>
+                {getLayout(<Component {...pageProps} />)}
+            </Provider>
         </>
     );
 }

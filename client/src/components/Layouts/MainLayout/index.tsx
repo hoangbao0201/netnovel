@@ -1,30 +1,37 @@
-import { ReactNode } from 'react';
-import classNames from 'classnames/bind'
+import { ReactNode } from "react";
+import classNames from "classnames/bind";
 const cx = classNames.bind(styles);
 
-import styles from './MainLayout.module.scss';
-import dynamic from 'next/dynamic';
+import styles from "./MainLayout.module.scss";
+import dynamic from "next/dynamic";
 
-const Header = dynamic(() => import('../../partials/Header'))
-const Footer = dynamic(() => import('../../partials/Footer'))
+const Header = dynamic(() => import("../../partials/Header"));
+const Footer = dynamic(() => import("../../partials/Footer"));
 
 interface MainLayoutProps {
-    children: ReactNode
-    showHeader?: boolean
-    showFooter?: boolean
+    children: ReactNode;
+    showHeader?: boolean;
+    showFooter?: boolean;
 }
 
-const MainLayout = ({ children, showHeader, showFooter } : MainLayoutProps ) => {
-
+const MainLayout = ({ children, showHeader, showFooter }: MainLayoutProps) => {
     return (
-       <>
-            { showHeader && <Header /> }
-            
+        <>
+            {showHeader && <Header />}
+
             <div className={cx("content")}>{children}</div>
 
-            { showFooter && <Footer /> }
-       </>
-   )
-}
+            {showFooter && <Footer />}
 
-export default MainLayout
+            {/* <ul className="haha">
+                <li>
+                    <div>1187</div>
+                    <div>Chương</div>
+                </li>
+                <li>123</li>
+            </ul> */}
+        </>
+    );
+};
+
+export default MainLayout;

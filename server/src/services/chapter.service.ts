@@ -37,3 +37,9 @@ export const getManyChapterHandle = async (slug: string) => {
 
     return chapter;
 }
+
+export const createManyChapters = async (chapters: any) => {
+
+
+    return await Chapter.insertMany(chapters)
+}

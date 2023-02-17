@@ -54,6 +54,7 @@
 
 .grid-author {
     display: flex;
+    align-items: center;
     flex-wrap: nowrap;
 
     svg {
@@ -66,6 +67,7 @@
         font-size: 14px;
         font-weight: 500;
         white-space: nowrap;
+        transform: translateY(12%);
     }
 }
 

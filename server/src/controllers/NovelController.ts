@@ -37,7 +37,7 @@ export const createNovelSteal = async (req: Request, res: Response) => {
                 message: "Url not found"
             })
         }
-        const novel = await createNovelStealHandle(req.body.url as string);
+        const novel = await createNovelStealHandle(req.body.url as string, res.locals.user._id as string);
         if(!novel) {
             return res.status(400).json({
                 success: false,
@@ -61,7 +61,6 @@ export const createNovelSteal = async (req: Request, res: Response) => {
 // Get Novel By Slug
 export const getNovelBySlug = async (req: Request, res: Response) => {
     try {
-
         const novel = await getNovelBySlugHandle(req.params.slug);
         if(!novel) {
             return res.status(400).json({

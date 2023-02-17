@@ -71,8 +71,8 @@ export const getChapter = async (req: Request, res: Response) => {
 export const getManyChapter = async (req: Request, res: Response) => {
     try {
 
-        const chapter = await getManyChapterHandle(req.params.slug as string);
-        if(!chapter) {
+        const chapters = await getManyChapterHandle(req.params.slug as string);
+        if(!chapters) {
             return res.status(400).json({
                 success: false,
                 message: "Get chapter error"
@@ -82,7 +82,7 @@ export const getManyChapter = async (req: Request, res: Response) => {
         return res.json({
             success: true,
             message: "Get many chapter successful",
-            chapter: chapter,
+            chapters: chapters,
         });
     } catch (error) {
         return res.status(500).json({

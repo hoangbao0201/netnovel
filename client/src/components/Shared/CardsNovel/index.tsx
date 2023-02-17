@@ -19,11 +19,11 @@ const CardsNovel : NextPage<CardsNovelProps> = ({ data } : CardsNovelProps) => {
     return (
        <div className={cx("wrapper")} >
             <div className={cx("container")}>
-                <Link href={`/novel/${data.slugNovel}` || "/"} className={cx('grid-image')}>
+                <Link href={`/novel/${data.slug}` || "/"} className={cx('grid-image')}>
                     <img className={cx("thumbnail")} src={data.image?.url || "/images/novel-default.png"}/>
                 </Link>
                 <div className={cx("detail")}>
-                    <Link className={cx("title-link")} href={`/novel/${data.slugNovel}` || "/"}>
+                    <Link className={cx("title-link")} href={`/novel/${data.slug}` || "/"}>
                         <h3 className={cx("title")}>
                             {data.title || "Lỗi hiển thị"}
                         </h3>

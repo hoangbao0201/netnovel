@@ -1,6 +1,7 @@
 require("dotenv").config()
 import express from 'express'
 import mongoose from 'mongoose'
+import cors from "cors"
 
 import authRouter from "./routes/auth"
 import novelRouter from "./routes/novel"
@@ -11,10 +12,12 @@ import chapterRouter from "./routes/chapter"
 const app = express()
 const PORT = 4000
 
+app.use(cors())
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 const main = async () => {
+
 
     mongoose.set('strictQuery', false);
     await mongoose.connect(`mongodb+srv://${process.env.MONGODB_USERNAME}:${process.env.MONGODB_PASSWORD}@netnovel.4shijnr.mongodb.net/?retryWrites=true&w=majority`)

@@ -1,3 +1,5 @@
+export const REVALIDATE_TIME = 3 * 60 * 60;
+
 export const GENRES_NT = [
     {id: "1", value: "Tất cả", slug: "truyen"},
     {id: "2", value: "Tiên Hiệp", slug: "genre=2"},

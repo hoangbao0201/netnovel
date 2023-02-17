@@ -79,7 +79,7 @@
     gap: 10px;
 
     .button-action {
-        padding: 10px 20px;
+        padding: 10px 16px;
         font-size: 17px;
         font-weight: 600;
         border-radius: 999px;
@@ -100,7 +100,7 @@
     }
     .suggest-novel {
         color: #b78a28;
-        border-color: #cc9e14;
+        border-color: #cc9e14;  
         background-color: #f7f5f0;
     }
 }
@@ -109,6 +109,11 @@
 
 .page-content {
     // margin-top: 30px;
+
+    .list-tab {
+        margin: 0px 15px;
+        border-bottom: 1px solid rgba(0,0,0, 0.1);
+    }
 }
 
 .button-tab {
@@ -117,11 +122,11 @@
     padding: 10px 20px;
     cursor: pointer;
     background-color: transparent;
+    color: #333;
+    font-weight: 500;
+    font-size: 18px;
 
     .item {
-        color: #333;
-        font-weight: 500;
-        font-size: 18px;
     }
 
     &.active {

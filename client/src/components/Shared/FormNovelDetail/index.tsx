@@ -1,27 +1,57 @@
 import classNames from "classnames/bind";
 import styles from "./FormNovelDetail.module.scss";
 
-import FormDesciption from "./FormDescription";
 import { NextPage } from "next";
-import WrapperContent from "@/components/Layouts/WrapperContent";
+import { NovelType } from "@/types";
+import { useState } from "react";
+import FormDesciption from "./FormDescription";
+import ContentChapters from "./ContentChapters";
 
 const cx = classNames.bind(styles);
 
 export interface FormNovelDetailProps {
-    novel?: any;
+    novel?: NovelType;
 }
-const FormNovelDetail: NextPage<FormNovelDetailProps> = ({ novel }) => {
 
-    if(!novel) {
+export interface ContentTab {
+    tab: string
+    slug: string
+}
+
+const ContentTab = ({ tab, slug }: ContentTab) => {
+    if (tab === "review") {
+        return <p>review</p>;
+    }
+    if (tab === "chap") {
+        return <ContentChapters slug={slug}/>;
+    }
+    if (tab === "comment") {
+        return <p>comment</p>;
+    }
+
+    return <p>fan</p>;
+};
+
+const FormNovelDetail: NextPage<FormNovelDetailProps> = ({ novel }) => {
+    const [buttonTab, setButtonTab] = useState("intro");
+
+    const eventClickButtonToggleTab = (e: any) => {
+        // e.preventDefault()
+        setButtonTab(e.target.name);
+    };
+
+    if (!novel) {
         return null;
     }
     return (
-        <>
+        <div className={cx("container")}>
             <div className={cx("head")}>
                 <div className={cx("thumbnail")}>
                     <img
                         className={cx("image")}
-                        src={novel.image?.url || "/images/novel-default.png"}
+                        src={
+                            novel.thumbnail?.url || "/images/novel-default.png"
+                        }
                     />
                 </div>
                 <div className={cx("detail")}>
@@ -66,7 +96,9 @@ const FormNovelDetail: NextPage<FormNovelDetailProps> = ({ novel }) => {
                             <button className={cx("button-action", "reading")}>
                                 Đọc tiếp
                             </button>
-                            <button className={cx("button-action", "novelmark")}>
+                            <button
+                                className={cx("button-action", "novelmark")}
+                            >
                                 Đánh dấu
                             </button>
                             <button
@@ -81,28 +113,67 @@ const FormNovelDetail: NextPage<FormNovelDetailProps> = ({ novel }) => {
             <div className={cx("page-content")}>
                 <div className={cx("content-page")}>
                     <div className={cx("list-tab")}>
-                        <button className={cx("button-tab", "active")}>
-                            <div className={cx("item")}>Giới thiệu</div>
+                        <button
+                            name="intro"
+                            onClick={eventClickButtonToggleTab}
+                            className={cx(
+                                "button-tab",
+                                `${buttonTab === "intro" && "active"}`
+                            )}
+                        >
+                            Giới thiệu
                         </button>
-                        <button className={cx("button-tab")}>
-                            <div className={cx("item")}>Đánh giá</div>
+                        <button
+                            name="review"
+                            onClick={eventClickButtonToggleTab}
+                            className={cx(
+                                "button-tab",
+                                `${buttonTab === "review" && "active"}`
+                            )}
+                        >
+                            Đánh giá
                         </button>
-                        <button className={cx("button-tab")}>
-                            <div className={cx("item")}>D.s chương</div>
+                        <button
+                            name="chap"
+                            onClick={eventClickButtonToggleTab}
+                            className={cx(
+                                "button-tab",
+                                `${buttonTab === "chap" && "active"}`
+                            )}
+                        >
+                            D.s chương
                         </button>
-                        <button className={cx("button-tab")}>
-                            <div className={cx("item")}>Bình luận</div>
+                        <button
+                            name="comment"
+                            onClick={eventClickButtonToggleTab}
+                            className={cx(
+                                "button-tab",
+                                `${buttonTab === "comment" && "active"}`
+                            )}
+                        >
+                            Bình luận
                         </button>
-                        <button className={cx("button-tab")}>
-                            <div className={cx("item")}>Hâm mộ</div>
+                        <button
+                            name="fan"
+                            onClick={eventClickButtonToggleTab}
+                            className={cx(
+                                "button-tab",
+                                `${buttonTab === "fan" && "active"}`
+                            )}
+                        >
+                            Hâm mộ
                         </button>
                     </div>
                     <div className={cx("tab-content")}>
-                        <FormDesciption description={novel.description} />
+                        {buttonTab === "intro" ? (
+                            <FormDesciption description={novel?.description}/>
+                        ) : (
+                            <ContentTab tab={buttonTab} slug={novel.slug}/>
+                        )}
                     </div>
                 </div>
             </div>
-        </>
+        </div>
     );
 };
 

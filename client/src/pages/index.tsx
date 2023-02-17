@@ -2,13 +2,19 @@ import { GetServerSideProps, NextPage } from "next";
 
 import FormHome from "@/components/Shared/FormHome";
 import WrapperContent from "@/components/Layouts/WrapperContent";
+import { getNovelsHandle } from "@/services";
+import { NovelType  } from "@/types";
 
-const Home : NextPage = ({ name } : any) => {
+interface HomeProps {
+    novels?: NovelType[]
+}
+
+const Home : NextPage = ({ novels } : HomeProps) => {
 
     return (
         <>
             <WrapperContent>
-                <FormHome />
+                <FormHome novels={novels}/>
             </WrapperContent>
 
         </>
@@ -17,11 +23,11 @@ const Home : NextPage = ({ name } : any) => {
 
 export const getServerSideProps : GetServerSideProps = async (ctx) => {
 
-    // const response = await axios.get("http://localhost:4000/api/users");
+    const novelResponse = await getNovelsHandle(ctx.query?.page as string)
 
     return {
         props: {
-            name: 123 || null
+            novels: novelResponse.data.novels || null
         }
     }
 }

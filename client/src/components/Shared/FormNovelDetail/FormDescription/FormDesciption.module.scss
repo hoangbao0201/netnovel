@@ -1,8 +1,14 @@
 
-.wrapper {
+.container {
     padding: 20px 0px;
+    display: flex;
 }
 
-.container {
+.description {
     font-size: 15px;
+    padding: 0px 15px;
+}
+
+.author {
+    padding: 0px 15px;
 }
