@@ -7,13 +7,14 @@ import styles from './WrapperContent.module.scss';
 interface WrapperContentProps {
     children: ReactNode
     dark?: boolean | true
+    bgColor?: string
 }
 
-const WrapperContent = ({ children, dark } : WrapperContentProps ) => {
+const WrapperContent = ({ children, dark, bgColor } : WrapperContentProps ) => {
 
     return (
        <div className={cx("wrapper", `${dark || "dark"}`)}>
-            <div className={cx("container")}>{children}</div>
+            <div className={cx("container")} style={{backgroundColor: bgColor}}>{children}</div>
        </div>
    )
 }

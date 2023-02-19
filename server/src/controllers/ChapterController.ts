@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { createChapterNovelHandle, getchapterByNumberHandle, getManyChapterHandle } from "../services/chapter.service";
+import { createChapterHandle, getchapterByNumberHandle, getChapterBySlug, getManyChapterHandle } from "../services/chapter.service";
 import { getNovelBySlugHandle } from "../services/novel.service";
 
 // Create Chapter
@@ -20,7 +20,7 @@ export const createChapter = async (req: Request, res: Response) => {
             })
         }
 
-        const newChapter = await createChapterNovelHandle(req.body, existingNovel)
+        const newChapter = await createChapterHandle(existingNovel.slug as string, req.body)
         if(!newChapter) {
             return res.status(400).json({
                 success: false,

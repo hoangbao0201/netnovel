@@ -5,13 +5,20 @@ export interface ImageType {
 
 export interface ChapterType {
     _id: string
-    novelName: string
-    novelSlug: string
     sourceName: string | undefined
     title: string
     chapterNumber: number
     content: string
     view: number
+    createdAt: Date
+    updatedAt: Date
+}
+
+export interface ChaptersType {
+    _id: string
+    novelName: string
+    novelSlug: string
+    chaptersList: ChapterType[]
     createdAt: Date
     updatedAt: Date
 }

@@ -5,7 +5,7 @@ import classNames from "classnames/bind";
 import { getChaptersBySlugHandler } from "@/services";
 
 import styles from "./ContentChapters.module.scss";
-import { ChapterType } from "@/types";
+import { ChaptersType, ChapterType } from "@/types";
 import Loading from "@/components/partials/Loading";
 
 const cx = classNames.bind(styles);
@@ -16,11 +16,12 @@ interface ContentChaptersProps {
 
 const ContentChapters = ({ slug }: ContentChaptersProps) => {
 
-    const [bodyContent, setBodyContent] = useState<ChapterType[] | null>(null)
+    const [bodyContent, setBodyContent] = useState<ChaptersType | null>(null)
 
     const getListChapters = async () => {
         const chaptersResponse = await getChaptersBySlugHandler(slug as string);
         if (chaptersResponse?.data.success) {
+            console.log(chaptersResponse.data.chapters)
             setBodyContent(chaptersResponse.data.chapters)
         }
     };
@@ -38,9 +39,9 @@ const ContentChapters = ({ slug }: ContentChaptersProps) => {
                 <div className={cx("content")}>
                     <div className={cx("head")}>Danh sách chương</div>
                     <div className={cx("list-chapters")}>
-                        {bodyContent.map((chapter : ChapterType) => {
+                        {bodyContent.chaptersList.map((chapter : ChapterType, index) => {
                             return (
-                                <Link key={chapter._id} href="#" className={cx("item-chap")}>
+                                <Link key={index} href={`/novel/${bodyContent.novelSlug}/chuong-${chapter.chapterNumber}`} className={cx("item-chap")}>
                                     <span className={cx("item-text")}>
                                         Chương {chapter.chapterNumber}: {chapter.title}
                                     </span>

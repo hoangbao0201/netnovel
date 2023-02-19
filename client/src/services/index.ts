@@ -1,4 +1,5 @@
 import axios from "axios";
+import { UserType } from "@/types";
 import { axiosClient } from "./axiosClient"
 
 export const getNovelsHandle = async (pageNumber: string) => {
@@ -25,4 +26,20 @@ export const getChaptersBySlugHandler = async (slug: string) => {
     }
 
     return null
+}
+
+export const getChapterBySlugAndNumber = async (slug: string, chapterNumber: string) => {
+    if(!slug || !chapterNumber) {
+        return null;
+    }
+
+    return await axios.get(`http://localhost:4000/api/chapters/${slug}/${chapterNumber}`)
+}
+
+export const loginUser = async (data: UserType) => {
+    if(!data) {
+        return null
+    }
+
+    return  await axios.post(`http://localhost:4000/api/auth/login`, data)
 }

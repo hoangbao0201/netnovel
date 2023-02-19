@@ -1,45 +1,80 @@
-import Chapter from "../models/Chapter"
+import Chapter from "../models/Chapter";
 
+export const getchapterByNumberHandle = async (
+    slug: string,
+    number: number
+) => {
+    const chapter = await Chapter.findOne(
+        { novelSlug: slug, "chaptersList.chapterNumber": number },
+        { "chaptersList.$": 1, novelName: 1, novelSlug: 1 }
+    ).lean();
 
-export const createChapterNovelHandle = async (input: any, novel: any) => {
-
-    const chapter = new Chapter({
-        ...input,
-        novelName: novel.title,
-        novelSlug: novel.slug
-    })
-    await chapter.save();
-
-    if(chapter) {
-        await novel.updateOne({}, {
-            $int: { chapterCount: 1 }
-        })
+    if (!chapter) {
+        return null;
     }
 
-    return chapter;
-}
+    return chapter
+};
 
-export const getchapterByNumberHandle = async (slug: string, number: number) => {
+// const result = {
+//     novelName: existingChapter.novelName,
+//     novelSlug: existingChapter.novelSlug,
+//     chapter: {
+//         chapterNumber: existingChapter.chaptersList[number-1].chapterNumber,
+//         title: existingChapter.chaptersList[number-1].chapterNumber,
+//         content: existingChapter.chaptersList[number-1].content,
+//         view: existingChapter.chaptersList[number-1].view,
+//     },
+// };
 
-    let chapter = await Chapter.findOne({
+export const getChapterBySlug = async (slug: string) => {
+    const chapter = await Chapter.findOne({
         novelSlug: slug,
-        chapterNumber: number
-    })
+    });
 
     return chapter;
-}
+};
 
 export const getManyChapterHandle = async (slug: string) => {
-
-    const chapter = await Chapter.find({
+    const chapters = await Chapter.find({
         novelSlug: slug,
-    }).select("-content -novelName")
+    }).select(
+        "novelName novelSlug chaptersList.chapterNumber chaptersList.title chaptersList.createAt"
+    );
 
-    return chapter;
-}
+    if (!chapters) {
+        return null;
+    }
+
+    return chapters[0];
+};
 
 export const createManyChapters = async (chapters: any) => {
+    return await Chapter.insertMany(chapters);
+};
 
+export const createChapterHandle = async (slug: string, input: any) => {
+    const createChapter = await Chapter.updateOne(
+        { novelSlug: slug },
+        {
+            $push: {
+                chaptersList: {
+                    ...input,
+                },
+            },
+        }
+    );
 
-    return await Chapter.insertMany(chapters)
-}
+    return createChapter;
+};
+
+export const createModelChapters = async (name: string, slug: string) => {
+    const newChapters = new Chapter({
+        novelName: name,
+        novelSlug: slug,
+        chapters: [],
+    });
+    await newChapters.save();
+
+    return newChapters;
+};

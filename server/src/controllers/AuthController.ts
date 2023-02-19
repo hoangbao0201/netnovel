@@ -5,6 +5,21 @@ import jwt from "jsonwebtoken";
 import User from "../models/User";
 import { getUserByAccoutHandle } from "../services/user.service";
 
+// Connect User
+export const connectUser = async (_req: Request, res: Response) => {
+    try {
+        return res.json({
+            success: true,
+            user: res.locals.user
+        })
+    } catch (error) {
+        return res.status(500).json({
+            success: false,
+            message: `Internal server error ${error}`,
+        });
+    }
+}
+
 // Register User
 export const registerUser = async (req: Request, res: Response) => {
     try {
@@ -14,7 +29,7 @@ export const registerUser = async (req: Request, res: Response) => {
         if (user) {
             return res.status(400).json({
                 success: false,
-                msg: "Tài khoản đã tồn tại",
+                message: "Tài khoản đã tồn tại",
             });
         }
 
@@ -31,7 +46,6 @@ export const registerUser = async (req: Request, res: Response) => {
         return res.json({
             success: true,
             message: "Register successful",
-            user: newUser,
         });
     } catch (error) {
         return res.status(500).json({
@@ -50,7 +64,7 @@ export const loginUser = async (req: Request, res: Response) => {
         if(!existingUser) {
             return res.status(400).json({
                 success: false,
-                msg: "Tài khoản hoặc mật khẩu không đúng",
+                message: "Tài khoản hoặc mật khẩu không đúng",
             })
         }
 
@@ -59,7 +73,7 @@ export const loginUser = async (req: Request, res: Response) => {
         if (!passwordValid) {
             return res.status(400).json({
                 success: false,
-                msg: "Tài khoản hoặc mật khẩu không đúng",
+                message: "Tài khoản hoặc mật khẩu không đúng",
             });
         }
 
@@ -74,6 +88,7 @@ export const loginUser = async (req: Request, res: Response) => {
         return res.json({
             success: true,
             message: "Login user successful",
+            user: existingUser,
             accessToken: accessToken
             // existingUser: existingUser
             // accout, password

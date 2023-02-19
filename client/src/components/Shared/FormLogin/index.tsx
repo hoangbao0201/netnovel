@@ -1,15 +1,18 @@
+import router from "next/router";
 import classNames from "classnames/bind";
 import styles from "./FormLogin.module.scss";
 import { ChangeEvent, FormEvent, useState } from "react";
 
 import { iconFacebook, iconGithub, iconGoogle } from "public/icons";
+import { loginUser } from "@/services";
+import { addAccessToken } from "@/utils/cookies";
 
 const cx = classNames.bind(styles);
-
 
 export interface FormLoginProps {}
 
 const FormLogin = () => {
+    const [isError, setIsError] = useState<any>(null);
     const [dataForm, setDataForm] = useState({
         accout: "",
         password: "",
@@ -28,13 +31,29 @@ const FormLogin = () => {
 
     const handleSubmitFormLoginUser = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+
+        try {
+            const loginResponse = await loginUser(dataForm as any);
+
+            if (loginResponse?.data.success) {
+                addAccessToken(loginResponse.data.accessToken);
+                console.log(loginResponse.data.user)
+                // router.push("/");
+            }
+        } catch (error: any) {
+            setIsError(
+                error.response?.data?.message ?? "An unknown error occurred"
+            );
+            setTimeout(() => {
+                setIsError(null);
+            }, 5000);
+        }
     };
 
     return (
         <>
             <div className={cx("wrapper")}>
                 <div className={cx("container")}>
-
                     <div className={cx("content-auth")}>
                         <div className={cx("grid-form")}>
                             <form
@@ -91,6 +110,12 @@ const FormLogin = () => {
                                         Ghi nhớ đăng nhập
                                     </label>
                                 </div>
+
+                                {!!isError && (
+                                    <div className={cx("message-error")}>
+                                        {isError}
+                                    </div>
+                                )}
 
                                 <div className={cx("form-group-button")}>
                                     <button

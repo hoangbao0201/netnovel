@@ -227,3 +227,14 @@
         z-index: 0;
     }
 }
+
+// Error
+
+.message-error {
+    color: 1px solid #842029;
+    background-color: #f8d7da;
+    border: 1px solid #f5c2c7;
+    padding: 8px 15px;
+    border-radius: 6px;
+    margin: 10px 0px;
+}
