@@ -6,6 +6,7 @@ import { NovelType } from "@/types";
 import { useState } from "react";
 import FormDesciption from "./FormDescription";
 import ContentChapters from "./ContentChapters";
+import Link from "next/link";
 
 const cx = classNames.bind(styles);
 
@@ -93,9 +94,11 @@ const FormNovelDetail: NextPage<FormNovelDetailProps> = ({ novel }) => {
 
                     <div className={cx("action")}>
                         <div className={cx("grid-button")}>
-                            <button className={cx("button-action", "reading")}>
-                                Đọc tiếp
-                            </button>
+                            <Link href={`${novel.slug}/chuong-1`}>
+                                <button className={cx("button-action", "reading")}>
+                                    Đọc tiếp
+                                </button>
+                            </Link>
                             <button
                                 className={cx("button-action", "novelmark")}
                             >

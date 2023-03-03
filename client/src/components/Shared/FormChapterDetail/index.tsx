@@ -5,13 +5,17 @@ import classNames from "classnames/bind";
 import styles from "./FormChapterDetail.module.scss";
 import { iconChevronLeft, iconChevronRight } from "public/icons";
 import { ChapterDetailProps } from "@/pages/novel/[slug]/[chapterNumber]";
-import moment from "moment";
-import "moment/locale/vi";
 import { convertTime } from "@/utils/convertTime";
+import moment from "moment";
+import dynamic from "next/dynamic";
+// import "moment/locale/vi";
 
 const cx = classNames.bind(styles);
 
 const FormChapterDetail: NextPage<ChapterDetailProps> = ({ chapter }) => {
+
+    console.log(chapter.chaptersList[0])
+
     return (
         <div className={cx("content")}>
             <div className={cx("content-head")}>
@@ -51,7 +55,10 @@ const FormChapterDetail: NextPage<ChapterDetailProps> = ({ chapter }) => {
                     <Link href={`/novel/${chapter.novelSlug}`} className={cx("title-novel")}>{chapter.novelName}</Link>
 
                     <div className={cx("createAt-chapter")}>
-                        {convertTime(chapter.chaptersList[0].createdAt)}
+                        {/* {convertTime(chapter.chaptersList[0].createdAt)} */}
+                        {/* {JSON.stringify(chapter.chaptersList[0].createdAt)} */}
+                        {/* {moment(chapter.chaptersList[0].createdAt).fromNow()} */}
+                        {/* {chapter.chaptersList[0].createdAt.toDateString()} */}
                     </div>
                 </div>
 

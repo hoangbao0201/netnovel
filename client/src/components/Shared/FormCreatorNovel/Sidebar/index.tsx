@@ -56,6 +56,8 @@ const Sidebar = ({ tab, isShow, handleToggle }: SidebarProps) => {
 
     useClickOutSide(refSide, handleToggle);
 
+    console.log(tab)
+
     const bodyContentSide = (
         <>
             {dataContentSide.map((itemTitle, indexTitle) => {
@@ -70,6 +72,7 @@ const Sidebar = ({ tab, isShow, handleToggle }: SidebarProps) => {
                                     <div
                                         className={cx(
                                             "side-item",
+                                            `${item.linkItem}`,
                                             `${
                                                 item.linkItem.split(
                                                     "/creator/"

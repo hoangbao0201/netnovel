@@ -7,30 +7,55 @@ import { useRef, useState } from "react";
 import { GENRES_NT, RANK_NT } from "@/constants";
 import HeaderSearch from "@/components/Shared/HeaderSearch";
 import useClickOutSide from "@/hook/useClickOutSide";
+import { useDispatch, useSelector } from "react-redux";
+import LoadingLayout from "../LoadingLayout";
+import { UserType } from "@/types";
+import { logoutUserHandle } from "@/redux/userSlice";
+import { removeAccessToken } from "@/utils/cookies";
 
 export interface HeaderProps {}
 
 const Header = () => {
+    const dispatch = useDispatch()
+    const { currentUser, userLoading, isAuthenticated } = useSelector((state : any) => state.user)
+
     const refDropdownGenres = useRef<HTMLDivElement>(null)
     const refDropdownRank = useRef<HTMLDivElement>(null)
+    const refDropdownUserHeader = useRef<HTMLDivElement>(null)
 
     const [isDropDownGenres, setIsDropDownGenres] = useState<boolean>(false);
     const [isDropDownRank, setIsDropDownRank] = useState<boolean>(false);
+    const [isDropdownUserHeader, setIsDropdownUserHeader] = useState(false)
+    const [userData, setUserData] = useState<UserType | null | undefined>(undefined);
 
-    const eventHiddentDropdown = () => {
+
+    const eventHiddentDropdownGenres = () => {
         setIsDropDownGenres(false);
+    }
+    const eventHiddentDropdownRank = () => {
         setIsDropDownRank(false);
     }
+    const eventHiddentDropdownUserHeader = () => {
+        setIsDropdownUserHeader(false);
+    }
 
-    useClickOutSide(refDropdownGenres, eventHiddentDropdown)
-    useClickOutSide(refDropdownRank, eventHiddentDropdown)
+    const eventLogoutUser = () => {
+        dispatch(logoutUserHandle());
+        removeAccessToken()
+    }
+
+    useClickOutSide(refDropdownGenres, eventHiddentDropdownGenres)
+    useClickOutSide(refDropdownRank, eventHiddentDropdownRank)
+    useClickOutSide(refDropdownUserHeader, eventHiddentDropdownUserHeader)
+
+    // console.log(userLoading ? "Loading" : ( isAuthenticated ? "Form" : "User" ))
 
     return (
         <div className={cx("wrapper")}>
             <div className={cx("container")}>
                 <div className={cx("content-left")}>
                     <Link className={cx("logo")} href="/">
-                        NET NOVEL
+                        SÁCH NHÀ NẮNG
                     </Link>
 
                     <nav className={cx("nav")}>
@@ -58,7 +83,7 @@ const Header = () => {
                                         <Link key={item.id} href={`/${item.slug}`}>
                                             <div className={cx("dropdown-item")}>{item.value}</div>
                                         </Link>
-                                    )
+                                        )
                                 })}
                                 
                             </div>
@@ -72,12 +97,43 @@ const Header = () => {
                         <HeaderSearch />
                     </div>
                     <div className={cx("accout")}>
-                        <Link href="/auth/login">
-                            <div className={cx("button", "login")}>Đăng nhập</div>
-                        </Link>
-                        <Link href="/auth/register">
-                            <div className={cx("button", "register")}>Đăng kí</div>
-                        </Link>
+                        {
+                            ( userLoading && <LoadingLayout /> ) || (
+                                isAuthenticated ? (
+                                <div className={cx("form-user")}>
+                                    <div className={cx("user")} onClick={() => setIsDropdownUserHeader(true)} >
+                                        <img className={cx("avatar")} src="/images/avatar-default-2.png"/>
+                                    </div>
+                                    {
+                                        isDropdownUserHeader && (
+                                            <div ref={refDropdownUserHeader} className={cx("dropdown-user")}>
+                                                <div className={cx("dropdown-header")}>
+                                                    <img className={cx("dropdown-header-avatar")} src="/images/avatar-default-2.png"/>
+                                                    <div>{currentUser.username}</div>
+                                                </div>
+                                                <div className={cx("dropdown-content")}>
+                                                    <Link href={`/user/${currentUser.username}`} className={cx("dropdown-item")}>Hồ sơ</Link>
+                                                    <Link href={`/creator`} target="_blank" className={cx("dropdown-item")}>Người sánh tạo</Link>
+                                                    <div onClick={eventLogoutUser} className={cx("dropdown-item")}>Đăng xuất</div>
+                                                </div>
+                                            </div>
+                                        )
+                                    }
+                                </div>
+                                    
+                                ) : (
+                                    
+                                    <>
+                                        <Link href="/auth/login">
+                                            <div className={cx("button", "login")}>Đăng nhập</div>
+                                        </Link>
+                                        <Link href="/auth/register">
+                                            <div className={cx("button", "register")}>Đăng kí</div>
+                                        </Link>
+                                    </>
+                                )
+                            )
+                        }
                     </div>
                 </div>
                 

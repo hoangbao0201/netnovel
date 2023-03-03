@@ -1,15 +1,21 @@
 import classNames from "classnames/bind";
 import styles from "./FormRegister.module.scss";
-import { ChangeEvent, FormEvent, useState } from "react";
+import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 
 
 import { iconFacebook, iconGithub, iconGoogle } from "public/icons";
+import { useSelector } from "react-redux";
+import { registerUser } from "@/services";
+import router from "next/router";
 
 const cx = classNames.bind(styles);
 
 export interface FormRegisterProps {}
 
 const FormRegister = () => {
+    const { isAuthenticated } = useSelector((state : any) => state.user)
+
+    const [isError, setIsError] = useState<any>(null);
     const [dataForm, setDataForm] = useState({
         name: "",
         username: "",
@@ -30,7 +36,27 @@ const FormRegister = () => {
     ) => {
         e.preventDefault();
 
+        try {
+            const registerResponse = await registerUser(dataForm as any);
+
+            if (registerResponse?.data.success) {
+                router.push("/auth/login");
+            }
+        } catch (error: any) {
+            setIsError(
+                error.response?.data?.message ?? "An unknown error occurred"
+            );
+            setTimeout(() => {
+                setIsError(null);
+            }, 5000);
+        }
     };
+
+    useEffect(() => {
+        if(isAuthenticated) {
+            router.push("/")
+        }
+    }, [])
 
     return (
         <>
@@ -134,6 +160,12 @@ const FormRegister = () => {
                                         />
                                     </div>
                                 </div>
+
+                                {!!isError && (
+                                    <div className={cx("message-error")}>
+                                        {isError}
+                                    </div>
+                                )}
 
                                 <div
                                     className={cx(

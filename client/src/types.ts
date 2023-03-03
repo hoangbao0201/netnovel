@@ -10,8 +10,8 @@ export interface ChapterType {
     chapterNumber: number
     content: string
     view: number
-    createdAt: Date
-    updatedAt: Date
+    createdAt: any
+    updatedAt: any
 }
 
 export interface ChaptersType {

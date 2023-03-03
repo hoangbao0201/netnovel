@@ -4,10 +4,19 @@ import MainLayout from "@/components/Layouts/MainLayout";
 import { ReactNode } from "react";
 import WrapperContent from "@/components/Layouts/WrapperContent";
 import FormLogin from "@/components/Shared/FormLogin";
+import { GetServerSideProps } from "next";
+import { connectUser } from "@/services";
+import { UserType } from "@/types";
+import { getAccessTokenOnServer } from "@/utils/cookies";
 
-const inter = Inter({ subsets: ["latin"] });
+export interface LoginProps {
+    user: UserType
+}
 
-export default function Login() {
+export default function Login({ user } : LoginProps) {
+
+    console.log(user)
+
     return (
         <>
             <Head>
@@ -29,6 +38,25 @@ export default function Login() {
 
         </>
     );
+}
+
+export const getServerSideProps : GetServerSideProps = async (ctx) => {
+
+    const token = getAccessTokenOnServer(ctx.req.headers.cookie as string)
+    const userResponse = await connectUser(token as string);
+
+    if(userResponse?.data.success) {
+        return {
+            redirect: {
+                destination: "/",
+                permanent: false
+            }
+        }
+    }
+
+    return {
+        props: {}
+    }
 }
 
 Login.getLayout = (page: ReactNode) => {

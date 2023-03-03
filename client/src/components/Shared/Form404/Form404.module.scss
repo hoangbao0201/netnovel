@@ -1,0 +1,43 @@
+
+.content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+
+.image-404 {
+    width: 200px;
+    display: block;
+    object-fit: cover;
+    margin-bottom: 20px;
+}
+
+.title {
+    font-size: 24px;
+    font-weight: 600;
+    margin-bottom: 30px;
+}
+
+.description {
+    font-size: 15px;
+    margin-bottom: 20px;
+}
+
+.link-come-back {
+    position: relative;
+    font-size: 17px;
+    font-weight: 600;
+    left: 0px;
+    transition: all 0.2s ease-in-out;
+
+    &>svg {
+        width: 12px;
+        top: 0px;
+        transform: rotate(-90deg) translateX(-6%);
+    }
+    &:hover {
+        left: -10px;
+    }
+}

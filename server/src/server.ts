@@ -7,6 +7,7 @@ import authRouter from "./routes/auth"
 import novelRouter from "./routes/novel"
 import userRouter from "./routes/user"
 import chapterRouter from "./routes/chapter"
+import imageRouter from "./routes/image"
 
 
 const app = express()
@@ -28,6 +29,7 @@ const main = async () => {
     app.use("/api/novels", novelRouter);
     app.use("/api/users", userRouter);
     app.use("/api/chapters", chapterRouter);
+    app.use("/api/images", imageRouter);
 
 
     app.listen(PORT, () => {

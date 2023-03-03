@@ -6,6 +6,8 @@ const cx = classNames.bind(styles);
 import Sidebar from "./Sidebar";
 import { iconBars } from "public/icons";
 import useClickOutSide from "@/hook/useClickOutSide";
+import { useDispatch, useSelector } from "react-redux";
+import LoadingLayout from "@/components/partials/LoadingLayout";
 
 export interface FormCreatorNovelProps {
     children?: ReactNode;
@@ -20,6 +22,10 @@ const FormCreatorNovel = ({
     title,
     description,
 }: FormCreatorNovelProps) => {
+
+    const dispatch = useDispatch()
+    const { currentUser, userLoading, isAuthenticated } = useSelector((state : any) => state.user)
+
     const refDropdown = useRef<any>();
     const [isShowDropdown, setIsShowDropdown] = useState(false);
 
@@ -58,10 +64,10 @@ const FormCreatorNovel = ({
                         >
                             <div className={cx("info-detail")}>
                                 <h4 className={cx("username")}>
-                                    {/* {currentUser.username || "Đang cập nhật"} */}
+                                    { userLoading ? <LoadingLayout /> : (isAuthenticated ? currentUser.username : "Đang cập nhật")}
                                 </h4>
                                 <h4 className={cx("email")}>
-                                    {/* {currentUser.email || "Đang cập nhật"} */}
+                                    { userLoading ? <LoadingLayout /> : (isAuthenticated ? currentUser.email : "Đang cập nhật")}
                                 </h4>
                             </div>
                             <div className={cx("avatar")}>

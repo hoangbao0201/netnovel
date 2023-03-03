@@ -4,6 +4,10 @@ import WrapperContent from "@/components/Layouts/WrapperContent";
 import FormChapterDetail from "@/components/Shared/FormChapterDetail";
 import { getChapterBySlugAndNumber } from "@/services";
 import { ChaptersType } from "@/types";
+import ScrollOnTop from "@/components/Layouts/ScrollOnTop";
+import dynamic from "next/dynamic";
+
+const ScrollButton = dynamic(() => import("@/components/Layouts/ScrollOnTop"))
 
 export interface ChapterDetailProps {
     chapter: ChaptersType
@@ -12,9 +16,12 @@ export interface ChapterDetailProps {
 const ChapterDetail : NextPage<ChapterDetailProps> = ({ chapter }) => {
 
     return (
-        <WrapperContent bgColor="#eae4d3">
-            <FormChapterDetail chapter={chapter}/>
-        </WrapperContent>
+        <>
+            <ScrollButton />
+            <WrapperContent bgColor="#eae4d3">
+                <FormChapterDetail chapter={chapter}/>
+            </WrapperContent>
+        </>
     )
 }
 

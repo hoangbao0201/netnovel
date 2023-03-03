@@ -1,17 +1,23 @@
 import router from "next/router";
 import classNames from "classnames/bind";
 import styles from "./FormLogin.module.scss";
-import { ChangeEvent, FormEvent, useState } from "react";
+import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 
 import { iconFacebook, iconGithub, iconGoogle } from "public/icons";
-import { loginUser } from "@/services";
+import { connectUser, loginUser } from "@/services";
 import { addAccessToken } from "@/utils/cookies";
+import { useDispatch, useSelector } from "react-redux";
+import { addUserHandle } from "@/redux/userSlice";
+import { setUserAuthLS } from "@/utils/localstorage";
 
 const cx = classNames.bind(styles);
 
 export interface FormLoginProps {}
 
 const FormLogin = () => {
+    const dispatch = useDispatch();
+    const { userLoading, isAuthenticated, currentUser } = useSelector((state : any) => state.user)
+
     const [isError, setIsError] = useState<any>(null);
     const [dataForm, setDataForm] = useState({
         accout: "",
@@ -37,8 +43,15 @@ const FormLogin = () => {
 
             if (loginResponse?.data.success) {
                 addAccessToken(loginResponse.data.accessToken);
-                console.log(loginResponse.data.user)
-                // router.push("/");
+
+                const userResponse = await connectUser(loginResponse.data.accessToken);
+
+                if(userResponse?.data.success) {
+                    dispatch(addUserHandle(userResponse.data.user));
+                    setUserAuthLS(userResponse.data.user);
+                    router.back()
+                }
+
             }
         } catch (error: any) {
             setIsError(

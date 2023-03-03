@@ -20,6 +20,12 @@
 .content-left {
     display: flex;
     align-items: center;
+
+    .logo {
+        font-size: 22px;
+        font-weight: 600;
+        
+    }
 }
 
 // Content Right
@@ -36,6 +42,8 @@
 }
 
 .accout {
+    margin-left: 20px;
+
     .button {
         padding: 5px 8px;
         -webkit-user-select: none;
@@ -43,6 +51,77 @@
         &:hover {
             background-color: rgba(0, 0, 0, 0.03);
         }
+    }
+    .user {
+        display: flex;
+        align-items: center;
+
+        padding: 0px 10px;
+        cursor: pointer;
+        
+        .avatar {
+            width: 34px;
+            height: 34px;
+            display: block;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+    }
+    .form-user {
+        position: relative;
+    }
+}
+
+// Dropdown user
+
+.dropdown-user {
+    padding: 6px 8px;
+    display: block;
+    position: absolute;
+    background-color: #ffff;
+    border-radius: 0px 0px 3px 3px;
+    box-shadow: 0 10px 15px 0 rgb(0 0 0 / 9%);
+    min-width: 250px;
+    z-index: 100;
+
+    top: 44px;
+    right: 0px;
+
+    &::before {
+        content: "";
+        z-index: 100;
+        top: 0px;
+        right: 18px;
+        width: 0px;
+        height: 0px;
+        border-left: 8px solid transparent;
+        border-right: 8px solid transparent;
+        border-bottom: 8px solid white;
+        position: absolute;
+        transform: translateY(-100%);
+    }
+
+    .dropdown-header {
+        padding: 6px 8px 14px 8px;
+        margin-bottom: 10px;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.03);
+        display: flex;
+        align-items: center;
+    }
+    .dropdown-header-avatar {
+        width: 40px;
+        height: 40px;
+        margin-right: 12px;
+        font-size: 17px;
+        font-weight: 800;
+        display: block;
+        object-fit: cover;
+        border-radius: 50%;
+    }
+    .dropdown-item {
+        padding: 2px;
+        width: 100%;
+        cursor: pointer;
     }
 }
 
@@ -62,6 +141,7 @@
 }
 
 .dropdown {
+    z-index: 100;
     display: none;
     padding: 5px 5px;
     background-color: #ffff;
@@ -102,8 +182,6 @@
 }
 
 .dropdown-content {
-    // display: flex;
-    // flex-wrap: wrap;
 
     .dropdown-item {
         float: left;

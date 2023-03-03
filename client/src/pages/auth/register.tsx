@@ -1,11 +1,11 @@
 import Head from "next/head";
-import { Inter } from "@next/font/google";
 import MainLayout from "@/components/Layouts/MainLayout";
 import { ReactNode } from "react";
 import WrapperContent from "@/components/Layouts/WrapperContent";
 import FormRegister from "@/components/Shared/FormRegister";
-
-const inter = Inter({ subsets: ["latin"] });
+import { GetServerSideProps } from "next";
+import { getAccessTokenOnServer } from "@/utils/cookies";
+import { connectUser } from "@/services";
 
 export default function Register() {
     return (
@@ -29,6 +29,25 @@ export default function Register() {
 
         </>
     );
+}
+
+export const getServerSideProps : GetServerSideProps = async (ctx) => {
+
+    const token = getAccessTokenOnServer(ctx.req.headers.cookie as string)
+    const userResponse = await connectUser(token as string);
+
+    if(userResponse?.data.success) {
+        return {
+            redirect: {
+                destination: "/",
+                permanent: false
+            }
+        }
+    }
+
+    return {
+        props: {}
+    }
 }
 
 Register.getLayout = (page: ReactNode) => {

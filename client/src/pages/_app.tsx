@@ -8,7 +8,8 @@ import MainLayout from "@/components/Layouts/MainLayout";
 import NProgress from "nprogress";
 import "nprogress/nprogress.css";
 import { Provider } from "react-redux";
-import { store } from "@/redux/store";
+import { persistor, store } from "@/redux/store";
+import { PersistGate } from "redux-persist/integration/react";
 
 type NextPageWithLayout = NextPage & {
     getLayout?: (page: ReactElement) => ReactNode;
@@ -35,7 +36,9 @@ export default function App({ Component, pageProps }: AppPropsWithlayout) {
     return (
         <>
             <Provider store={store}>
-                {getLayout(<Component {...pageProps} />)}
+                <PersistGate loading={null} persistor={persistor}>
+                    {getLayout(<Component {...pageProps} />)}
+                </PersistGate>
             </Provider>
         </>
     );

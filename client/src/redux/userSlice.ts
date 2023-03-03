@@ -1,5 +1,4 @@
 import { createSlice } from "@reduxjs/toolkit";
-import type { PayloadAction } from "@reduxjs/toolkit";
 import { UserType } from "@/types";
 
 interface CounterState {
@@ -10,7 +9,7 @@ interface CounterState {
 
 const initialState: CounterState = {
     currentUser: null,
-    userLoading: false,
+    userLoading: true,
     isAuthenticated: false,
 };
 
@@ -18,14 +17,24 @@ export const counterSlice = createSlice({
     name: "user",
     initialState,
     reducers: {
-        userHandle: (state, action) => {
+        addUserHandle: (state, action) => {
             state.currentUser = action.payload
             state.userLoading = false
             state.isAuthenticated = true
+        },
+        authFailedHandle: (state) => {
+            state.currentUser = null
+            state.userLoading = false
+            state.isAuthenticated = false
+        },
+        logoutUserHandle: (state) => {
+            state.currentUser = null
+            state.userLoading = false
+            state.isAuthenticated = false
         }
     },
 });
 
-export const { userHandle } = counterSlice.actions;
+export const { addUserHandle, authFailedHandle, logoutUserHandle } = counterSlice.actions;
 
 export default counterSlice.reducer;
