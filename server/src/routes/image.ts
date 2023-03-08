@@ -7,7 +7,7 @@ import { uploadThumbnailNovel } from "../controllers/ImageController"
 
 
 
-router.post("/thumbnail/:slug", storage.single("file"), uploadThumbnailNovel);
+router.post("/novel/thumbnail", uploadThumbnailNovel);
 
 
 

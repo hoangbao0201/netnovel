@@ -1,21 +1,16 @@
 import { Request, Response } from "express";
-
-import cloudinary from "../lib/cloudinary";
+import { uploadThumbnailNovelByUrlHandle } from "../services/image.service";
 
 
 export const uploadThumbnailNovel = async (req: Request, res: Response) => {
     try {
-        
+        const { url } = req.body
 
-        const thubnail = await cloudinary.uploader.upload(req.file?.path, {
-            public_id: `${Date.now()}`,
-            resource_type: "auto",
-            folder: "hobanovel/book/thumbnail",
-        });
+        const thubnail = await uploadThumbnailNovelByUrlHandle(url as string)
 
         return res.json({
             success: true,
-            message: "Upload image successful",
+            message: "Upload thumnail successful",
             image: thubnail
         });
 

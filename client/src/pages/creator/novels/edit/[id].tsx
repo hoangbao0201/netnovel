@@ -10,9 +10,7 @@ export interface CreatorEditNovelPageProps {
     novel?: any;
 }
 
-const CreatorEditNovelPage: NextPage<CreatorEditNovelPageProps> = ({
-    novel,
-}) => {
+const CreatorEditNovelPage = ({ novel } : CreatorEditNovelPageProps) => {
     return (
         <>
             <FormCreatorNovel
@@ -48,12 +46,12 @@ export const getServerSideProps : GetServerSideProps = async (ctx) => {
     }
 }
 
-// CreatorEditNovelPage.getLayout = (page: ReactNode) => {
-//     return (
-//         <MainLayout showHeader={false} showFooter={false}>
-//             {page}
-//         </MainLayout>
-//     );
-// };
+CreatorEditNovelPage.getLayout = (page: ReactNode) => {
+    return (
+        <MainLayout showHeader={false} showFooter={false}>
+            {page}
+        </MainLayout>
+    );
+};
 
 export default CreatorEditNovelPage;

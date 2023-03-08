@@ -2,18 +2,20 @@ import axios from "axios";
 import * as cheerio from "cheerio";
 import { convertTextToSlug } from "../utils/convertTextToSlug";
 import Novel from "../models/Novel";
-import { createChapterHandle, createModelChapters } from "./chapter.service";
+import { uploadThumbnailNovelByUrlHandle } from "./image.service";
+import { createModelChapterHandle, getNumberChaptersInWeekHandle } from "./chapter.service";
 
 export const createNovelHandle = async (input: any, userId: string) => {
+
+    const idChapter = await createModelChapterHandle(input.title as string, input.slug as string)
+
     const newNovel = new Novel({
         ...input,
         postedBy: userId,
+        chapters: idChapter._id
     });
-    await newNovel.save();
 
-    if(newNovel) {
-        await createModelChapters(newNovel.title as string, newNovel.slug as string)
-    }
+    await newNovel.save();
 
     return newNovel;
 };
@@ -24,8 +26,15 @@ export const createNovelStealHandle = async (url: string, userId: string) => {
         const response1 = await axios.get(url);
         const $1 = cheerio.load(response1.data);
 
+        const urlImage = $1('.nh-thumb--210 img').attr('src');
+        let thumbnailImage = await uploadThumbnailNovelByUrlHandle(urlImage as string);
+
         const dataNovel = {
             title: $1('h1.h3.mr-2>a').text(),
+            thumbnail: {
+                url: thumbnailImage.url || null,
+                publicId: thumbnailImage.public_id || null,
+            },
             slug: convertTextToSlug($1('h1.h3.mr-2>a').text()),
             description: $1('div.content').html(),
             author: $1('ul.list-unstyled.mb-4>li').eq(0).find('a').text(),
@@ -41,47 +50,84 @@ export const createNovelStealHandle = async (url: string, userId: string) => {
             return null;
         }
 
-        const getDataChapter = async () => {
-            // const chapterCount = $1('ul.list-unstyled.d-flex.mb-4 li div').first().text()
-            const chapterCount = "100";
-
-            for (let index = 1; index <= parseInt(chapterCount); index++) {
-                const response2 = await axios.get(url + '/chuong-' + index);
-                const $2 = cheerio.load(response2.data);
-
-                const dataChapter = {
-                    novelName: $1('h1.h3.mr-2>a').text(),
-                    novelSlug: convertTextToSlug($1('h1.h3.mr-2>a').text()),
-                    title: $2('div.h1.mb-4.font-weight-normal.nh-read__title').text().split(":")[1].trim(),
-                    content: $2('div#article').html(),
-                    chapterNumber: index,
-                }
-                const newChapter = await createChapterHandle(newNovel.slug as string, dataChapter)
-                if(!newChapter) {
-                    return null
-                }
-            }
-        }
-        await getDataChapter()
-
-        return true;
+        return newNovel;
    } catch (error) {
         return null
    }
 };
 
-export const getNovelBySlugHandle = async (slug: string) => {
+export const getNovelAndChaptersBySlugHandle = async (slug: string) => {
     const existingNovel = await Novel.findOne({ slug })
         .populate("chapters")
 
     return existingNovel;
 };
 
-export const getNovelsHandle = async (pageNumber: number) => {
-    const existingNovel = await Novel.find({})
-        // .limit(pageNumber)
-        // .skip(pageNumber+2)
-        // .sort({ createdAt: -1 })
+export const getNovelBySlugHandle = async (slug: string) => {
+    const existingNovel : any = await Novel.findOne({ slug })
+        .populate({
+            path: 'chapters',
+            select: 'chapterCount chaptersList.view chaptersList.createAt',
+        });
+
+    if (!existingNovel) {
+        return null;
+    }
+
+    const chaptersList = existingNovel.chapters.chaptersList;
+
+    const oneWeekAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
+    const numberChaptersInWeek = chaptersList.filter(
+        (chapter : any) => chapter.createAt >= oneWeekAgo
+    ).length;
+
+    const views = chaptersList.reduce(
+        (totalViews : any, chapter : any) => {
+            return totalViews + chapter.view
+        },
+        0
+    );
+
+    // return {
+    //     ...existingNovel.toObject(),
+    //     numberChaptersInWeek,
+    //     viewsNovel,
+    // };
+
+    return {
+        ...existingNovel.toObject(),
+        chapters: {
+            views,
+            chapterCount: existingNovel.chapters.chapterCount,
+            numberChaptersInWeek
+        }
+    }
+};
+
+// return { ...existingNovel.toObject(), numberChaptersInWeek };
+// const numberChaptersInWeek = await getNumberChaptersInWeekHandle(existingNovel.slug as string)
+// return {...existingNovel.toObject(), numberChaptersInWeek: numberChaptersInWeek};
+
+
+export const getNovelBySlugPostedByHandle = async (slug: string, postedBy: string) => {
+    const existingNovel = await Novel.findOne({ slug, postedBy });
+    if(!existingNovel) {
+        return null
+    }
 
     return existingNovel;
+};
+
+export const getNovelsHandle = async (pageNumber: number) => {
+    const existingNovel = await Novel.find({})
+
+    return existingNovel;
+};
+
+export const getNovelsByUserIdHandle = async (userId: string) => {
+    const existingNovels = await Novel.find({ postedBy: userId })
+        .select("-content -description")
+        .sort({ createdAt: -1 })
+
+    return existingNovels || null;
 };

@@ -2,7 +2,7 @@ import { GetServerSideProps, NextPage } from "next";
 
 import WrapperContent from "@/components/Layouts/WrapperContent";
 import FormChapterDetail from "@/components/Shared/FormChapterDetail";
-import { getChapterBySlugAndNumber } from "@/services";
+import { getChapterBySlugAndNumber, increaseViewChapterBySlugChapterNumber } from "@/services";
 import { ChaptersType } from "@/types";
 import ScrollOnTop from "@/components/Layouts/ScrollOnTop";
 import dynamic from "next/dynamic";
@@ -14,6 +14,8 @@ export interface ChapterDetailProps {
 }
 
 const ChapterDetail : NextPage<ChapterDetailProps> = ({ chapter }) => {
+
+    console.log(chapter)
 
     return (
         <>
@@ -27,6 +29,8 @@ const ChapterDetail : NextPage<ChapterDetailProps> = ({ chapter }) => {
 
 export const getServerSideProps : GetServerSideProps = async ({ query, res }) => {
     const chapterResponse = await getChapterBySlugAndNumber(query.slug as string, query.chapterNumber as string)
+    increaseViewChapterBySlugChapterNumber(query.slug as string, query.chapterNumber as string)
+
     if(!chapterResponse) {
         return {
             props: {

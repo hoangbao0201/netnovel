@@ -6,10 +6,9 @@ const NovelsSchema = new Schema({
 
     slug:           { type: String, require: true, index: true },
     title:          { type: String, trim: true },
-    chapterCount:   { type: Number, default: 0 },
     thumbnail: {
         url:        { type: String },
-        publicdID:  { type: String }
+        publicId:  { type: String }
     },
     description:    { type: String, trim: true },
 

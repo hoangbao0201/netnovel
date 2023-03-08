@@ -10,17 +10,21 @@ export interface ChapterType {
     chapterNumber: number
     content: string
     view: number
-    createdAt: any
-    updatedAt: any
+    createdAt: Date
+    updatedAt: Date
 }
 
 export interface ChaptersType {
     _id: string
     novelName: string
     novelSlug: string
+    chapterCount: number
     chaptersList: ChapterType[]
     createdAt: Date
     updatedAt: Date
+
+    views: number
+    numberChaptersInWeek: number
 }
 
 // Comic
@@ -38,6 +42,7 @@ export interface NovelType {
     classify: string
     viewFrame: string
     postedBy: string
+    chapters: ChaptersType
     createdAt: Date
     updatedAt: Date
     __v: number

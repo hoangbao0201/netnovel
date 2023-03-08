@@ -14,8 +14,6 @@ const cx = classNames.bind(styles);
 
 const FormChapterDetail: NextPage<ChapterDetailProps> = ({ chapter }) => {
 
-    console.log(chapter.chaptersList[0])
-
     return (
         <div className={cx("content")}>
             <div className={cx("content-head")}>
@@ -40,7 +38,15 @@ const FormChapterDetail: NextPage<ChapterDetailProps> = ({ chapter }) => {
                         href={`/novel/${chapter.novelSlug}/chuong-${
                             chapter.chaptersList[0].chapterNumber + 1
                         }`}
-                        className={cx("button", "btn-next")}
+                        className={cx(
+                            "button", 
+                            "btn-next",
+                            `${
+                                chapter.chapterCount === chapter.chaptersList[0].chapterNumber
+                                    ? "disabled"
+                                    : ""
+                            }`
+                        )}
                     >
                         Chương sau {iconChevronRight}
                     </Link>
@@ -56,9 +62,6 @@ const FormChapterDetail: NextPage<ChapterDetailProps> = ({ chapter }) => {
 
                     <div className={cx("createAt-chapter")}>
                         {/* {convertTime(chapter.chaptersList[0].createdAt)} */}
-                        {/* {JSON.stringify(chapter.chaptersList[0].createdAt)} */}
-                        {/* {moment(chapter.chaptersList[0].createdAt).fromNow()} */}
-                        {/* {chapter.chaptersList[0].createdAt.toDateString()} */}
                     </div>
                 </div>
 

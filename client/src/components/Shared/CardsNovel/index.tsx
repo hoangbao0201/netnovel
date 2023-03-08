@@ -20,7 +20,7 @@ const CardsNovel : NextPage<CardsNovelProps> = ({ data } : CardsNovelProps) => {
        <div className={cx("wrapper")} >
             <div className={cx("container")}>
                 <Link href={`/novel/${data.slug}` || "/"} className={cx('grid-image')}>
-                    <img className={cx("thumbnail")} src={data.image?.url || "/images/novel-default.png"}/>
+                    <img className={cx("thumbnail")} src={data.thumbnail?.url || "/images/novel-default.png"}/>
                 </Link>
                 <div className={cx("detail")}>
                     <Link className={cx("title-link")} href={`/novel/${data.slug}` || "/"}>

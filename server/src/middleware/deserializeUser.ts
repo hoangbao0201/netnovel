@@ -16,6 +16,7 @@ export const deserializeUser = async (
                 code: 400,
                 success: false,
                 message: "Access token not found",
+                error: req.headers.authorization
             });
             return;
         }

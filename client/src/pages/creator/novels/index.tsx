@@ -4,13 +4,14 @@ import FormCreatorNovel from "@/components/Shared/FormCreatorNovel";
 import ContentFormMyNovels from "@/components/Shared/FormCreatorNovel/ContentFormMyNovels";
 import MainLayout from "@/components/Layouts/MainLayout";
 import { getAccessTokenOnServer } from "@/utils/cookies";
-import { connectUser } from "@/services";
+import { connectUser, getNovelsByUserId } from "@/services";
 
 interface CreatorNovelsPageProps {
     novels?: any;
 }
 
-const CreatorNovelsPage: NextPage<CreatorNovelsPageProps> = ({ novels }) => {
+const CreatorNovelsPage = ({ novels } : CreatorNovelsPageProps) => {
+
     return (
         <>
             <FormCreatorNovel
@@ -42,9 +43,26 @@ export const getServerSideProps : GetServerSideProps = async (ctx) => {
         }
     }
 
+    const novels = await getNovelsByUserId(userResponse.data.user._id as string)
+    if(novels?.data.success) {
+        return {
+            props: {
+                novels: novels.data.novels || null
+            }
+        }
+    }
+
     return {
         props: {}
     }
 }
+
+CreatorNovelsPage.getLayout = (page: ReactNode) => {
+    return (
+        <MainLayout showHeader={false} showFooter={false}>
+            {page}
+        </MainLayout>
+    );
+};
 
 export default CreatorNovelsPage;

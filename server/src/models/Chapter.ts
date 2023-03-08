@@ -6,6 +6,7 @@ const ChapterSchema = new Schema({
 
     novelName: { type: String, index: true },
     novelSlug: { type: String, index: true, require: true },
+    chapterCount: { type: Number, default: 0 },
 
     chaptersList: [
         {

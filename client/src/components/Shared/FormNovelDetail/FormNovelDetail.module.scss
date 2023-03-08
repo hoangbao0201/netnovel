@@ -31,7 +31,7 @@
     }
 }
 
-.category {
+.list-genres {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
@@ -44,7 +44,36 @@
         font-size: 15px;
         padding: 5px 12px;
         border-radius: 999px;
-        border: 1px solid #ccc;
+        border: 1px solid #088860;
+
+        &.author {
+            color: #666 !important;
+            border-color: #666 !important;
+        }
+        &.condition {
+            color: #bf2c24 !important;
+            border-color: #bf2c24 !important;
+        }
+        &.category {
+            color: #b78a28 !important;
+            border-color: #b78a28 !important;
+        }
+        &.personality {
+            color: #088860 !important;
+            border-color: #088860 !important;
+        }
+        &.scene {
+            color: #088860 !important;
+            border-color: #088860 !important;
+        }
+        &.classify {
+            color: #088860 !important;
+            border-color: #088860 !important;
+        }
+        &.viewFrame {
+            color: #088860 !important;
+            border-color: #088860 !important;
+        }
     }
 }
 

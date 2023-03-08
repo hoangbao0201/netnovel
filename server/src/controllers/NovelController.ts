@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { createNovelHandle, createNovelStealHandle, getNovelBySlugHandle, getNovelsHandle } from "../services/novel.service";
+import { createNovelHandle, createNovelStealHandle, getNovelBySlugHandle, getNovelsByUserIdHandle, getNovelsHandle } from "../services/novel.service";
 
 
 // Create Novel
@@ -31,8 +31,16 @@ export const createNovel = async (req: Request, res: Response) => {
 export const createNovelSteal = async (req: Request, res: Response) => {
     try {
 
-        if(!req.body.url) {
+        const existingNovel = await getNovelBySlugHandle(req.body.url.split("truyen/")[1] as string)
+        if(existingNovel) {
             return res.status(400).json({
+                success: false,
+                message: "Truyện đã tồn tại"
+            })
+        }
+
+        if(!req.body.url) {
+            return res.status(400).json({ 
                 success: false,
                 message: "Url not found"
             })
@@ -61,7 +69,7 @@ export const createNovelSteal = async (req: Request, res: Response) => {
 // Get Novel By Slug
 export const getNovelBySlug = async (req: Request, res: Response) => {
     try {
-        const novel = await getNovelBySlugHandle(req.params.slug);
+        const novel = await getNovelBySlugHandle(req.params.slug as string);
         if(!novel) {
             return res.status(400).json({
                 success: false,
@@ -99,6 +107,31 @@ export const getNovels = async (req: Request, res: Response) => {
             message: "Get novels successful",
             novels: novels
             // novels: novels || null
+        })
+    } catch (error) {
+        return res.status(500).json({
+            success: false,
+            message: `Internal server error ${error}`,
+        });
+    }
+}
+
+export const getNovelByUserId = async (req: Request, res: Response) => {
+    try {
+
+        const novels = await getNovelsByUserIdHandle(req.params.userId as string);
+        if(!novels) {
+            return res.status(400).json({
+                success: false,
+                message: "Get Novels By UserId error"
+            })
+        }
+
+        return res.json({
+            success: true,
+            message: "Get novels successful",
+            // novels: novels
+            novels: novels || null
         })
     } catch (error) {
         return res.status(500).json({

@@ -7,6 +7,7 @@ import { useState } from "react";
 import FormDesciption from "./FormDescription";
 import ContentChapters from "./ContentChapters";
 import Link from "next/link";
+import FormFeeling from "./FormFeeling";
 
 const cx = classNames.bind(styles);
 
@@ -41,6 +42,8 @@ const FormNovelDetail: NextPage<FormNovelDetailProps> = ({ novel }) => {
         setButtonTab(e.target.name);
     };
 
+    console.log(novel?.chapters)
+
     if (!novel) {
         return null;
     }
@@ -59,18 +62,19 @@ const FormNovelDetail: NextPage<FormNovelDetailProps> = ({ novel }) => {
                     <div className={cx("grid-name")}>
                         <h2 className={cx("title")}>{novel.title}</h2>
                     </div>
-                    <div className={cx("category")}>
-                        <div className={cx("item")}>{novel.author}</div>
-                        <div className={cx("item")}>{novel.category}</div>
-                        <div className={cx("item")}>{novel.personality}</div>
-                        <div className={cx("item")}>{novel.scene}</div>
-                        <div className={cx("item")}>{novel.classify}</div>
-                        <div className={cx("item")}>{novel.viewFrame}</div>
+                    <div className={cx("list-genres")}>
+                        { novel.author && <div className={cx("item", "author")}>{novel.author}</div> }
+                        <div className={cx("item", "condition")}>{novel.chapters.numberChaptersInWeek > 0 ? "Đang ra" : "Chưa ra chương mới"}</div>
+                        { novel.category && <div className={cx("item", "category")}>{novel.category}</div> }
+                        { novel.personality && <div className={cx("item", "personality")}>{novel.personality}</div> }
+                        { novel.scene && <div className={cx("item", "scene")}>{novel.scene}</div> }
+                        { novel.classify && <div className={cx("item", "classify")}>{novel.classify}</div> }
+                        { novel.viewFrame && <div className={cx("item", "viewFrame")}>{novel.viewFrame}</div> }
                     </div>
 
                     <div className={cx("grid-number")}>
                         <div className={cx("detail-number", "number-chapter")}>
-                            <div>312</div>
+                            <div>{novel.chapters.chapterCount || 0}</div>
                             Chương
                         </div>
                         <div
@@ -79,15 +83,15 @@ const FormNovelDetail: NextPage<FormNovelDetailProps> = ({ novel }) => {
                                 "number-chapter-week"
                             )}
                         >
-                            <div>13</div>
+                            <div>{novel.chapters.numberChaptersInWeek}</div>
                             Chương/tuần
                         </div>
                         <div className={cx("detail-number", "number-reads")}>
-                            <div>1.6M</div>
+                            <div>{novel.chapters.views}</div>
                             Lượt đọc
                         </div>
                         <div className={cx("detail-number", "number-store")}>
-                            <div>3249</div>
+                            <div>2012</div>
                             Cất giữ
                         </div>
                     </div>
@@ -169,7 +173,10 @@ const FormNovelDetail: NextPage<FormNovelDetailProps> = ({ novel }) => {
                     </div>
                     <div className={cx("tab-content")}>
                         {buttonTab === "intro" ? (
-                            <FormDesciption description={novel?.description}/>
+                            <>
+                                <FormDesciption description={novel?.description}/>
+                                <FormFeeling />
+                            </>
                         ) : (
                             <ContentTab tab={buttonTab} slug={novel.slug}/>
                         )}

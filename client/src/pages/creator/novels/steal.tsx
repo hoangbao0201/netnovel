@@ -1,23 +1,23 @@
 import { ReactNode } from "react";
-import FormCreatorNovel from "@/components/Shared/FormCreatorNovel";
 import MainLayout from "@/components/Layouts/MainLayout";
+import FormCreatorNovel from "@/components/Shared/FormCreatorNovel";
 import { GetServerSideProps } from "next";
 import { getAccessTokenOnServer } from "@/utils/cookies";
 import { connectUser } from "@/services";
-import { UserType } from "@/types";
+import ContentFormSteal from "@/components/Shared/FormCreatorNovel/ContentFormSteal";
 
-export interface CreatorPageProps {
-    user?: UserType
-}
+export interface CreatorNovelPageProps {}
 
-const CreatorPage = () => {
-
+const CreatorNovelPage = () => {
     return (
         <>
             <FormCreatorNovel
-                title="Tin tức mới"
-                description="Các hoạt động gần đây nhất"
-            />
+                tab="novels/steal"
+                title="Cào truyện theo url"
+                description="Hiện tại chỉ có thể lấy novel của metruyenchu"
+            >
+                <ContentFormSteal />
+            </FormCreatorNovel>
         </>
     );
 };
@@ -41,7 +41,7 @@ export const getServerSideProps : GetServerSideProps = async (ctx) => {
     }
 }
 
-CreatorPage.getLayout = (page: ReactNode) => {
+CreatorNovelPage.getLayout = (page: ReactNode) => {
     return (
         <MainLayout showHeader={false} showFooter={false}>
             {page}
@@ -49,4 +49,4 @@ CreatorPage.getLayout = (page: ReactNode) => {
     );
 };
 
-export default CreatorPage;
+export default CreatorNovelPage;

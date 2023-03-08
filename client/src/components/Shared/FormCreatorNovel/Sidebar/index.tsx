@@ -28,6 +28,10 @@ const dataContentSide = [
                 linkItem: "/creator/drafts",
             },
             {
+                item: "Cào truyện",
+                linkItem: "/creator/novels/steal",
+            },
+            {
                 item: "Thêm Truyện Mới",
                 linkItem: "/creator/novels/new",
             },
@@ -55,8 +59,6 @@ const Sidebar = ({ tab, isShow, handleToggle }: SidebarProps) => {
     const refSide = useRef<HTMLDivElement>(null);
 
     useClickOutSide(refSide, handleToggle);
-
-    console.log(tab)
 
     const bodyContentSide = (
         <>

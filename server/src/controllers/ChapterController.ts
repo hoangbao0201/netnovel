@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
-import { createChapterHandle, getchapterByNumberHandle, getChapterBySlug, getManyChapterHandle } from "../services/chapter.service";
-import { getNovelBySlugHandle } from "../services/novel.service";
+import { createChapterHandle, createChapterStealHandle, getchapterByNumberHandle, getManyChapterHandle, increaseViewChapterHandle } from "../services/chapter.service";
+import { getNovelBySlugHandle, getNovelBySlugPostedByHandle } from "../services/novel.service";
 
 // Create Chapter
 export const createChapter = async (req: Request, res: Response) => {
@@ -33,6 +33,39 @@ export const createChapter = async (req: Request, res: Response) => {
             message: "Create chapter successful",
             chapter: newChapter
         });
+    } catch (error) {
+        return res.status(500).json({
+            success: false,
+            message: `Internal server error ${error}`,
+        });
+    }
+};
+
+// Create Chapters, Steal
+export const createChapterSteal = async (req: Request, res: Response) => {
+    try {
+
+        const existingNovel = await getNovelBySlugPostedByHandle(req.params.slug as string, res.locals.user._id as string);
+        if(!existingNovel) {
+            return res.status(400).json({
+                success: false,
+                message: "Bạn không có quyền"
+            })
+        }
+
+        const existingChapter = await createChapterStealHandle( req.params.slug as string, req.params.chapterNumber as string);
+        if(!existingChapter) {
+            return res.status(400).json({
+                success: false,
+                message: "Create novel error"
+            })
+        }
+
+        return res.json({
+            success: true,
+            message: "Create novel successful",
+            chapter: existingChapter
+        })
     } catch (error) {
         return res.status(500).json({
             success: false,
@@ -83,6 +116,31 @@ export const getManyChapter = async (req: Request, res: Response) => {
             success: true,
             message: "Get many chapter successful",
             chapters: chapters,
+        });
+    } catch (error) {
+        return res.status(500).json({
+            success: false,
+            message: `Internal server error ${error}`,
+        });
+    }
+};
+
+// Increase View Chapter
+export const increaseViewChapter = async (req: Request, res: Response) => {
+    try {
+        const chapNumber = req.params.chapterNumber.split("chuong-")[1]
+
+        const chapter = await increaseViewChapterHandle(req.params.slug as string, parseInt(chapNumber) as number);
+        if(!chapter) {
+            return res.status(400).json({
+                success: false,
+                message: "Increase view chapter error"
+            })
+        }
+
+        return res.json({
+            success: true,
+            message: "Increase view chapter successful",
         });
     } catch (error) {
         return res.status(500).json({

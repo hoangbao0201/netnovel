@@ -10,6 +10,9 @@ import {
     iconPlus,
     iconUpload,
 } from "public/icons";
+import { GetServerSideProps } from "next";
+import { getNovelsByUserId } from "@/services";
+import { getAccessToken } from "@/utils/cookies";
 
 const cx = classNames.bind(styles);
 
@@ -24,7 +27,7 @@ const ContentFormMyNovels = ({ novels } : ContentFormMyNovelsProps) => {
             <div className={cx("content")}>
                 {novels.map((novel: any) => {
                     return (
-                        <div key={novel.id} className={cx("card")}>
+                        <div key={novel._id} className={cx("card")}>
                             <div className={cx("container")}>
                                 <div className={cx("head")}>
                                     <h2 className={cx("title")}>
