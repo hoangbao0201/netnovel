@@ -3,7 +3,7 @@ import { NextPage } from "next";
 import classNames from "classnames/bind";
 
 import styles from "./FormChapterDetail.module.scss";
-import { iconChevronLeft, iconChevronRight } from "public/icons";
+import { iconBook, iconChevronLeft, iconChevronRight } from "public/icons";
 import { ChapterDetailProps } from "@/pages/novel/[slug]/[chapterNumber]";
 import { convertTime } from "@/utils/convertTime";
 import moment from "moment";
@@ -58,7 +58,9 @@ const FormChapterDetail: NextPage<ChapterDetailProps> = ({ chapter }) => {
                 </div>
 
                 <div className={cx("chapter-detail")}>
-                    <Link href={`/novel/${chapter.novelSlug}`} className={cx("title-novel")}>{chapter.novelName}</Link>
+                    <Link href={`/novel/${chapter.novelSlug}`} className={cx("title-novel")}>
+                        {iconBook} {chapter.novelName}
+                    </Link>
 
                     <div className={cx("createAt-chapter")}>
                         {/* {convertTime(chapter.chaptersList[0].createdAt)} */}

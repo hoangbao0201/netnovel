@@ -15,12 +15,10 @@ export interface ChapterDetailProps {
 
 const ChapterDetail : NextPage<ChapterDetailProps> = ({ chapter }) => {
 
-    console.log(chapter)
-
     return (
         <>
             <ScrollButton />
-            <WrapperContent bgColor="#eae4d3">
+            <WrapperContent width="1170px" bgColor="#eae4d3">
                 <FormChapterDetail chapter={chapter}/>
             </WrapperContent>
         </>
@@ -28,8 +26,11 @@ const ChapterDetail : NextPage<ChapterDetailProps> = ({ chapter }) => {
 }
 
 export const getServerSideProps : GetServerSideProps = async ({ query, res }) => {
-    const chapterResponse = await getChapterBySlugAndNumber(query.slug as string, query.chapterNumber as string)
-    increaseViewChapterBySlugChapterNumber(query.slug as string, query.chapterNumber as string)
+    const slug = query.slug as string
+    const chapterNumber = query.chapterNumber as string
+
+    const chapterResponse = await getChapterBySlugAndNumber(slug, chapterNumber)
+    increaseViewChapterBySlugChapterNumber(slug, chapterNumber)
 
     if(!chapterResponse) {
         return {

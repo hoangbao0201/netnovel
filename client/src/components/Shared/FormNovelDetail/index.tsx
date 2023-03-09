@@ -4,10 +4,9 @@ import styles from "./FormNovelDetail.module.scss";
 import { NextPage } from "next";
 import { NovelType } from "@/types";
 import { useState } from "react";
-import FormDesciption from "./FormDescription";
+import FormIntroduce from "./FormIntroduce";
 import ContentChapters from "./ContentChapters";
 import Link from "next/link";
-import FormFeeling from "./FormFeeling";
 
 const cx = classNames.bind(styles);
 
@@ -41,8 +40,6 @@ const FormNovelDetail: NextPage<FormNovelDetailProps> = ({ novel }) => {
         // e.preventDefault()
         setButtonTab(e.target.name);
     };
-
-    console.log(novel?.chapters)
 
     if (!novel) {
         return null;
@@ -173,10 +170,7 @@ const FormNovelDetail: NextPage<FormNovelDetailProps> = ({ novel }) => {
                     </div>
                     <div className={cx("tab-content")}>
                         {buttonTab === "intro" ? (
-                            <>
-                                <FormDesciption description={novel?.description}/>
-                                <FormFeeling />
-                            </>
+                            <FormIntroduce description={novel?.description}/>
                         ) : (
                             <ContentTab tab={buttonTab} slug={novel.slug}/>
                         )}

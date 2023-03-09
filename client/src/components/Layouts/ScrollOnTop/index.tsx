@@ -1,4 +1,5 @@
 import classNames from "classnames/bind";
+import { iconArrowTop } from "public/icons";
 import { useEffect, useRef, useState } from "react";
 import styles from "./ScrollOnTop.module.scss";
 
@@ -33,7 +34,7 @@ const ScrollOnTop = () => {
                     onClick={eventOnTop}
                     className={cx("button")}
                 >
-                    <div className={cx("content")}>On Top</div>
+                    <div className={cx("content")}>{iconArrowTop}</div>
                 </button>
             ) : null}
         </>

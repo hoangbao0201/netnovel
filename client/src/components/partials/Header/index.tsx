@@ -55,7 +55,7 @@ const Header = () => {
             <div className={cx("container")}>
                 <div className={cx("content-left")}>
                     <Link className={cx("logo")} href="/">
-                        SÁCH NHÀ NẮNG
+                        NETNOVEL
                     </Link>
 
                     <nav className={cx("nav")}>

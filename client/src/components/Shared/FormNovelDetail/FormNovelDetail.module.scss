@@ -1,4 +1,6 @@
-
+.container {
+    z-index: 10;
+}
 
 .head {
     display: flex;
@@ -6,7 +8,8 @@
 }
 
 .thumbnail {
-
+    box-shadow: 2px 3px 2px 0 rgba(0,0,0,.15)!important;
+    
     .image {
         width: 210px;
         height: 300px;
@@ -26,7 +29,7 @@
     margin-bottom: 20px;
 
     .title {
-        font-size: 23px;
+        font-size: 30px;
         font-weight: 600;
     }
 }
@@ -166,4 +169,10 @@
             font-weight: 600;
         }
     }
+}
+
+// Content
+
+.tab-content {
+    display: flex;
 }

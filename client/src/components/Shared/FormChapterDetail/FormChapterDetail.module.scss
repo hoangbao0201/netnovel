@@ -67,7 +67,16 @@
     justify-content: space-between;
 
     .title-novel {
-        font-size: 15px;
+        font-size: 16px;
+        display: flex;
+        align-items: center;
+
+        svg {
+            width: 14px;
+            margin-right: 10px;
+            // transform: translateY(1px);
+            display: block;
+        }
     }
     .createAt-chapter {
         font-size: 15px;
@@ -77,7 +86,7 @@
 // Content text
 
 .content-chapter {
-    font-size: 20px;
+    font-size: 23px;
     line-height: 1.5;
     margin: 60px 0px 20px 0px;
 }

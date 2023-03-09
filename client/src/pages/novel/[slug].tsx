@@ -8,6 +8,7 @@ import { getNovelBySlugHandle } from "@/services";
 import { ParsedUrlQuery } from "querystring";
 import { REVALIDATE_TIME } from "@/constants";
 import dynamic from "next/dynamic";
+import Slider from "@/components/partials/Slider";
 
 interface Params extends ParsedUrlQuery {
     slug: string;
@@ -21,7 +22,8 @@ const NovelDetail = ({ novel } : NovelDetailProps) => {
     
     return (
         <>
-            <WrapperContent>
+            <Slider />
+            <WrapperContent width="1170px" top="translateY(-130px)" borderRadius="8px">
                 <FormNovelDetail novel={novel}/>
             </WrapperContent>
         </>
