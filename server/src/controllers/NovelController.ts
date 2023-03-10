@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { createNovelHandle, createNovelStealHandle, getNovelBySlugHandle, getNovelsByUserIdHandle, getNovelsHandle } from "../services/novel.service";
+import { createNovelHandle, createNovelStealHandle, getNovelBySlugHandle, getNovelByTitleHandle, getNovelsByUserIdHandle, getNovelsHandle } from "../services/novel.service";
 
 
 // Create Novel
@@ -106,7 +106,6 @@ export const getNovels = async (req: Request, res: Response) => {
             success: true,
             message: "Get novels successful",
             novels: novels
-            // novels: novels || null
         })
     } catch (error) {
         return res.status(500).json({
@@ -132,6 +131,31 @@ export const getNovelByUserId = async (req: Request, res: Response) => {
             message: "Get novels successful",
             // novels: novels
             novels: novels || null
+        })
+    } catch (error) {
+        return res.status(500).json({
+            success: false,
+            message: `Internal server error ${error}`,
+        });
+    }
+}
+
+export const getNovelByTitle = async (req: Request, res: Response) => {
+    try {
+
+        const novels = await getNovelByTitleHandle(req.params.query as string);
+        if(!novels) {
+            return res.status(400).json({
+                success: false,
+                message: "Get Novels By Title Error"
+            })
+        }
+
+        return res.json({
+            success: true,
+            message: "Get novels successful",
+            novels: novels
+            // novels: req.params.query || null
         })
     } catch (error) {
         return res.status(500).json({

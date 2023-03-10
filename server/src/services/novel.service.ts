@@ -119,9 +119,23 @@ export const getNovelBySlugPostedByHandle = async (slug: string, postedBy: strin
 };
 
 export const getNovelsHandle = async (pageNumber: number) => {
-    const existingNovel = await Novel.find({})
+    const existingNovels : any = await Novel.find({})
+        .sort({ createdAt: -1 })
+        .limit(pageNumber*6)
+        .skip((pageNumber-1) * 6)
+        .select({
+            title: 1,
+            slug: 1,
+            thumbnail: 1,
+            description: { $substrCP: ["$description", 0, 130] }
+        })
+        .lean()
+    
+    if(!existingNovels) {
+        return null
+    }
 
-    return existingNovel;
+    return existingNovels
 };
 
 export const getNovelsByUserIdHandle = async (userId: string) => {
@@ -131,3 +145,20 @@ export const getNovelsByUserIdHandle = async (userId: string) => {
 
     return existingNovels || null;
 };
+
+export const getNovelByTitleHandle = async (query: string) => {
+    const novels = await Novel.find({
+        $or: [
+            {
+                title: {
+                    $regex: query, $options: "i"
+                }
+            }
+        ]
+    }).select("-description -author -chapters -postedBy")
+    if(!novels) {
+        return null
+    }
+
+    return novels
+}

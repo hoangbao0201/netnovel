@@ -1,25 +1,25 @@
-import { GetServerSideProps, NextPage } from "next";
+import { GetServerSideProps } from "next";
 
-import FormHome from "@/components/Shared/FormHome";
 import WrapperContent from "@/components/Layouts/WrapperContent";
 import { getNovelsHandle } from "@/services";
 import { NovelType } from "@/types";
 import { ReactNode } from "react";
 import MainLayout from "@/components/Layouts/MainLayout";
 import { NextPageWithLayout } from "./_app";
-
-interface HomeProps {
+import Select from 'react-select'
+import { OPTIONS_CATEGORY_NT } from "@/constants";
+interface SearchPageProps {
     novels?: NovelType[];
 }
 
-const Home: NextPageWithLayout = ({ novels }: HomeProps) => {
-
-    // console.log(novels || null)
-
+const SearchPage: NextPageWithLayout = ({ novels }: SearchPageProps) => {
     return (
         <>
             <WrapperContent>
-                <FormHome novels={novels} />
+                <Select
+                    name="category"
+                    options={OPTIONS_CATEGORY_NT}
+                />
             </WrapperContent>
         </>
     );
@@ -35,9 +35,9 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
     };
 };
 
-export default Home;
+export default SearchPage;
 
-Home.getLayout = (page: ReactNode) => {
+SearchPage.getLayout = (page: ReactNode) => {
     return (
         <MainLayout showHeader showFooter>
             {page}

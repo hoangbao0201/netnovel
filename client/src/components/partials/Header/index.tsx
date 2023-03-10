@@ -3,7 +3,7 @@ import classNames from "classnames/bind";
 import styles from "./Header.module.scss";
 const cx = classNames.bind(styles);
 
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { GENRES_NT, RANK_NT } from "@/constants";
 import HeaderSearch from "@/components/Shared/HeaderSearch";
 import useClickOutSide from "@/hook/useClickOutSide";
@@ -12,10 +12,12 @@ import LoadingLayout from "../LoadingLayout";
 import { UserType } from "@/types";
 import { logoutUserHandle } from "@/redux/userSlice";
 import { removeAccessToken } from "@/utils/cookies";
+import { useRouter } from "next/dist/client/router";
 
 export interface HeaderProps {}
 
 const Header = () => {
+    const router = useRouter()
     const dispatch = useDispatch()
     const { currentUser, userLoading, isAuthenticated } = useSelector((state : any) => state.user)
 
@@ -48,7 +50,19 @@ const Header = () => {
     useClickOutSide(refDropdownRank, eventHiddentDropdownRank)
     useClickOutSide(refDropdownUserHeader, eventHiddentDropdownUserHeader)
 
-    // console.log(userLoading ? "Loading" : ( isAuthenticated ? "Form" : "User" ))
+    useEffect(() => {
+        const handleRouteChange = () => {
+            eventHiddentDropdownUserHeader()
+            eventHiddentDropdownGenres()
+            eventHiddentDropdownRank()
+        };
+    
+        router.events.on("routeChangeStart", handleRouteChange);
+    
+        return () => {
+          router.events.off("routeChangeStart", handleRouteChange);
+        };
+    }, []);
 
     return (
         <div className={cx("wrapper")}>

@@ -6,7 +6,7 @@ import { getChaptersBySlugHandler } from "@/services";
 
 import styles from "./ContentChapters.module.scss";
 import { ChaptersType, ChapterType } from "@/types";
-import Loading from "@/components/partials/Loading";
+import LoadingForm from "@/components/partials/LoadingForm";
 
 const cx = classNames.bind(styles);
 
@@ -31,7 +31,7 @@ const ContentChapters = ({ slug }: ContentChaptersProps) => {
     }, []);
 
     if(!bodyContent) {
-        return <Loading />
+        return <LoadingForm />
     }
     else {
         if(bodyContent) {

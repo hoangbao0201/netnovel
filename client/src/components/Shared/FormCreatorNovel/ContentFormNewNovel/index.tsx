@@ -225,14 +225,18 @@ const ContentFormNewNovel = () => {
                             <option value="Hư Nghĩ Võng Du">
                                 Hư Nghĩ Võng Du
                             </option>
-                            <option value="Du Hí Dị Giới">Du Hí Dị Giới</option>
+                            <option value="Du Hí Dị Giới">
+                                Du Hí Dị Giới
+                            </option>
                             <option value="Điện Tử Cạnh Kỹ">
                                 Điện Tử Cạnh Kỹ
                             </option>
                             <option value="Thể Dục Cạnh Kỹ">
                                 Thể Dục Cạnh Kỹ
                             </option>
-                            <option value="Cổ Võ Cơ Giáp">Cổ Võ Cơ Giáp</option>
+                            <option value="Cổ Võ Cơ Giáp">
+                                Cổ Võ Cơ Giáp
+                            </option>
                             <option value="Thế Giới Tương Lai">
                                 Thế Giới Tương Lai
                             </option>

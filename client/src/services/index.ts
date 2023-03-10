@@ -7,10 +7,10 @@ import Cookies from "js-cookie";
 export const getNovelsHandle = async (pageNumber: string) => {
 
     if(pageNumber) {
-        return await axiosClient.get(`/api/novels?page=${pageNumber}`);
+        return await axiosClient.get(`/api/novels/all-novels?page=${pageNumber}`);
     }
 
-    return await axiosClient.get(`/api/novels`);
+    return await axiosClient.get(`/api/novels/all-novels`);
 }
 
 export const getNovelBySlugHandle = async (slug: string) => {
@@ -131,4 +131,16 @@ export const increaseViewChapterBySlugChapterNumber = (slug: string, chapterNumb
         return null
     }
     axios.get(`http://localhost:4000/api/chapters/increase-view/${slug}/${chapterNumber}`)
-} 
+}
+
+export const getResultNovelSearch = async (query: string) => {
+    if(!query) {
+        return
+    }
+    const novels = await axios.get(`http://localhost:4000/api/novels/search-novel/text=${query}`)
+    if(!novels) {
+        return
+    }
+
+    return novels
+}

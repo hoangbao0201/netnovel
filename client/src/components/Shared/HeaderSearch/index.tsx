@@ -1,23 +1,94 @@
 import Link from "next/link";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import classNames from "classnames/bind";
 import styles from "./HeaderSearch.module.scss";
 
 import useClickOutSide from "@/hook/useClickOutSide";
+import { useDebounce } from "@/hook/useDebounce";
+import { getResultNovelSearch } from "@/services";
+import { NovelType } from "@/types";
+import LoadingSearch from "@/components/partials/LoadingSearch";
+import { iconClose } from "public/icons";
+import { useRouter } from "next/router";
 
 const cx = classNames.bind(styles);
 
 export interface HeaderSearchProps {}
 
 const HeaderSearch = () => {
+    const router = useRouter();
     const refModalSearch = useRef<HTMLDivElement>(null);
+    const [valueInputSearch, setValueInputSearch] = useState("")
+    const [listNovelSearch, setListNovelSearch] = useState<NovelType[]>([])
     const [isModalSearch, setIsModalSearch] = useState<boolean>(false);
+    const [isLoadingSearchNovel, setIsLoadingSearchNovel] = useState(false)
 
+    let textInputSearchDebounce = useDebounce(valueInputSearch, 500);
+    
     const eventHiddentModalSearch = () => {
         setIsModalSearch(false);
     }
-
     useClickOutSide(refModalSearch, eventHiddentModalSearch);
+
+    const eventOnchangeValueInputSearch = (e : any) => {
+        setValueInputSearch(e.target.value)
+    }
+
+    const handleSearchNovel = async () => {
+        try {
+            const convertValueInputSearch = valueInputSearch.trim()
+            if(convertValueInputSearch == "") {
+                setIsLoadingSearchNovel(false)
+            }
+            const novels : any = await getResultNovelSearch(convertValueInputSearch as string);
+            if(!novels && !novels.data.success) {
+                setListNovelSearch([])
+                setIsLoadingSearchNovel(false)
+                return
+            }
+            
+            if(novels.data.novels == listNovelSearch) {
+                setIsLoadingSearchNovel(false)
+                return
+            }
+
+
+            setListNovelSearch(novels.data.novels)
+            setIsLoadingSearchNovel(false)
+
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    const eventDeleteValueInputSearch = () => {
+        textInputSearchDebounce = ""
+        setValueInputSearch("")
+        setListNovelSearch([])
+        setIsLoadingSearchNovel(false)
+    }
+
+    useEffect(() => {
+        if(textInputSearchDebounce === "" ) {
+            setListNovelSearch([])
+        }
+        else if(textInputSearchDebounce){
+            setIsLoadingSearchNovel(true)
+            handleSearchNovel()
+        }
+    }, [textInputSearchDebounce])
+
+    useEffect(() => {
+        const handleRouteChange = () => {
+            setIsModalSearch(false);
+        };
+    
+        router.events.on("routeChangeStart", handleRouteChange);
+    
+        return () => {
+          router.events.off("routeChangeStart", handleRouteChange);
+        };
+    }, []);
 
     return (
         <div className={cx("content")}>
@@ -26,30 +97,57 @@ const HeaderSearch = () => {
 
                 <div ref={refModalSearch} className={cx("modal-search")}>
                     
-                    <div className={cx("form")}>
-                        <div className={cx("head")}>
-                            <input className={cx("input-search")} placeholder="Tìm kiếm"/>
+                    <div className={cx("head")}>
+                        <div className={cx("title")}>Tìm kiếm truyện</div>
+                        <div className={cx("form-search")}>
+                            <input value={valueInputSearch} onChange={eventOnchangeValueInputSearch} className={cx("input-search")} placeholder="Tìm kiếm"/>
+                            {
+                                isLoadingSearchNovel ? (
+                                    <span className={cx("icon-input-search", "loading-search")}><LoadingSearch /></span>
+                                ) : (
+                                    valueInputSearch !== "" && (<span onClick={eventDeleteValueInputSearch} className={cx("icon-input-search", "delete-search")}>{iconClose}</span>)
+                                )
+                            }
                         </div>
+                    </div>
 
-                        <div className={cx("modal-content")}>
+                    <div className={cx("modal-content")}>
 
-                            <Link href="/">
-                                <div className={cx("card")}>
-                                    Vừa Thành Tiên Thần, Con Cháu Cầu Ta Xuất Sơn
-                                </div>
-                            </Link>
-                            <Link href="/">
-                                <div className={cx("card")}>
-                                    Vừa Thành Tiên Thần, Con Cháu Cầu Ta Xuất Sơn
-                                </div>
-                            </Link>
-                            <Link href="/">
-                                <div className={cx("card")}>
-                                    Vừa Thành Tiên Thần, Con Cháu Cầu Ta Xuất Sơn
-                                </div>
-                            </Link>
+                        {
+                            listNovelSearch.length > 0 ? (
+                                listNovelSearch.map((novel) => {
+                                    return (
+                                        // <Link key={novel._id} href={novel.slug}>
+                                            <div key={novel._id}  className={cx("card")}>
+                                                <div className={cx("card-content")}>
+                                                    <Link href={`/novel/${novel.slug}`}>
+                                                        <img src={novel.thumbnail.url} className={cx("novel-thumbnail")} />
+                                                    </Link>
+                                                    <div className={cx("info-novel")}>
+                                                        <Link href={`/novel/${novel.slug}`}>
+                                                            <h2 className={cx("title")}>{novel.title}</h2>
+                                                        </Link>
+                                                        <div className={cx("list-genres")}>
+                                                            { novel.category && <div className={cx("item", "category")}>{novel.category}</div> }
+                                                            { novel.personality && <div className={cx("item", "personality")}>{novel.personality}</div> }
+                                                            { novel.scene && <div className={cx("item", "scene")}>{novel.scene}</div> }
+                                                            { novel.classify && <div className={cx("item", "classify")}>{novel.classify}</div> }
+                                                            { novel.viewFrame && <div className={cx("item", "viewFrame")}>{novel.viewFrame}</div> }
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        // </Link>
+                                    )
+                                })
+                            ) : (
+                                !isLoadingSearchNovel
+                                && textInputSearchDebounce != ""
+                                && valueInputSearch
+                                && <div>Không tìm thấy truyện bạn cần tìm</div>
+                            )
+                        }
 
-                        </div>
                     </div>
 
                 </div>
