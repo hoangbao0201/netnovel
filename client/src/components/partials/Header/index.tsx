@@ -13,6 +13,7 @@ import { UserType } from "@/types";
 import { logoutUserHandle } from "@/redux/userSlice";
 import { removeAccessToken } from "@/utils/cookies";
 import { useRouter } from "next/dist/client/router";
+import { iconArrowTop } from "public/icons";
 
 export interface HeaderProps {}
 
@@ -73,7 +74,9 @@ const Header = () => {
                     </Link>
 
                     <nav className={cx("nav")}>
-                        <div onClick={() => setIsDropDownGenres(true)} className={cx("nav-button")}>Thể loại</div>
+                        <div onClick={() => setIsDropDownGenres(true)} className={cx("nav-button", `${isDropDownGenres && "show"}`)}>
+                            Thể loại {iconArrowTop}
+                        </div>
                         <div ref={refDropdownGenres} className={cx("dropdown", "category", `${isDropDownGenres && "show"}`)}>
                             <div className={cx("dropdown-content")}>
                                 {GENRES_NT.map(item => {
@@ -89,7 +92,9 @@ const Header = () => {
                     </nav>
 
                     <nav className={cx("nav")}>
-                        <div onClick={() => setIsDropDownRank(true)} className={cx("nav-button")}>Thể loại</div>
+                        <button onClick={() => setIsDropDownRank(true)} className={cx("nav-button", `${isDropDownRank && "show"}`)}>
+                            Bảng xếp hạng {iconArrowTop}
+                        </button>
                         <div ref={refDropdownRank} className={cx("dropdown", "rank", `${isDropDownRank && "show"}`)}>
                             <div className={cx("dropdown-content")}>
                                 {RANK_NT.map(item => {
@@ -97,7 +102,7 @@ const Header = () => {
                                         <Link key={item.id} href={`/${item.slug}`}>
                                             <div className={cx("dropdown-item")}>{item.value}</div>
                                         </Link>
-                                        )
+                                    )
                                 })}
                                 
                             </div>
@@ -127,6 +132,7 @@ const Header = () => {
                                                 </div>
                                                 <div className={cx("dropdown-content")}>
                                                     <Link href={`/user/${currentUser.username}`} className={cx("dropdown-item")}>Hồ sơ</Link>
+                                                    <Link href={`/search`} className={cx("dropdown-item")}>Tìm truyện</Link>
                                                     <Link href={`/creator`} target="_blank" className={cx("dropdown-item")}>Người sánh tạo</Link>
                                                     <div onClick={eventLogoutUser} className={cx("dropdown-item")}>Đăng xuất</div>
                                                 </div>

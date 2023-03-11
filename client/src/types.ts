@@ -62,3 +62,8 @@ export interface UserType {
     createdAt: Date
     updatedAt: Date
 }
+
+export interface SelectType {
+    value: string
+    label: string
+}

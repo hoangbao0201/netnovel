@@ -42,6 +42,7 @@
 }
 
 .accout {
+    height: 50px;
     margin-left: 20px;
 
     .button {
@@ -128,15 +129,30 @@
 // Nav
 
 .nav {
-    top: 0px;
-    left: 0px;
     position: relative;
 
     .nav-button {
-        cursor: pointer;
-        padding: 15px 10px;
+        height: 50px;
         margin: 0px 2px;
+        padding: 0px 15px;
+        cursor: pointer;
+        display: inline-block;
         -webkit-user-select: none;
+        font-size: 16px;
+        background-color: transparent;
+        border: none;
+
+        display: flex;
+        align-items: center;
+
+        svg {
+            top: 0px;
+            transform: rotate(180deg);
+            transition: .1s ease;
+            width: 12px;
+            margin-left: 5px;
+            display: block;
+        }
     }
 }
 
