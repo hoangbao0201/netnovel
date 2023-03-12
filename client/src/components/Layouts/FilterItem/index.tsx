@@ -9,12 +9,14 @@ interface FilterItemProps {
     name: string
     title: string
     options: any
+    defaultValue?: Object | null
+    handleOnchange: Function
 }
 
-const FilterItem = ({ name, title, options } : FilterItemProps) => {
+const FilterItem = ({ name, title, defaultValue, handleOnchange, options } : FilterItemProps) => {
 
-    const eventOnchangeDataOptions = () => {
-
+    const eventOnchangeDataOptions = (select: any) => {
+        handleOnchange(select.id)
     }
 
     return (
@@ -22,7 +24,7 @@ const FilterItem = ({ name, title, options } : FilterItemProps) => {
             <div className={cx("title")}>{title}</div>
             <Select
                 name={name}
-                defaultValue={options[0]}
+                defaultValue={ defaultValue || options[0]}
                 onChange={eventOnchangeDataOptions}
                 options={options}
             />

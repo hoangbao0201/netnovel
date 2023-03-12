@@ -154,7 +154,28 @@ export const OPTIONS_CLASSIFY_NT = [
 ]
 
 export const OPTIONS_VIEWFRAME_NT = [
-    { id: 1, value: "Góc Nhìn Nam", label: "Góc Nhìn Nam" },
-    { id: 1, value: "Góc Nhìn Nữ", label: "Góc Nhìn Nữ" },
-    { id: 1, value: "Ngôi Thứ Nhất", label: "Ngôi Thứ Nhất" },
+    { id: 115, value: "Góc Nhìn Nam", label: "Góc Nhìn Nam" },
+    { id: 116, value: "Góc Nhìn Nữ", label: "Góc Nhìn Nữ" },
+    { id: 117, value: "Ngôi Thứ Nhất", label: "Ngôi Thứ Nhất" },
+]
+
+export const OPTIONS_STATUS_NT = [
+    { id: 118, value: "Tất cả", label: "Tất cả" },
+    { id: 119, value: "Đang tiến hành", label: "Đang tiến hành" },
+    { id: 120, value: "Hoàn thành", label: "Hoàn thành" }
+]
+
+export const OPTIONS_GENDER_NT = [
+    { id: 121, value: "Tất cả", label: "Tất cả" },
+    { id: 122, value: "Con trai", label: "Con trai" },
+    { id: 123, value: "Con gái", label: "Con gái" }
+]
+
+export const OPTIONS_NUMBERCHAPTER_NT = [
+    { id: 124, value: ">= 50 chapter", label: ">= 50 chapter" },
+    { id: 125, value: ">= 100 chapter", label: ">= 100 chapter" },
+    { id: 126, value: ">= 200 chapter", label: ">= 200 chapter" },
+    { id: 127, value: ">= 300 chapter", label: ">= 300 chapter" },
+    { id: 128, value: ">= 400 chapter", label: ">= 400 chapter" },
+    { id: 129, value: ">= 400 chapter", label: ">= 400 chapter" },
 ]

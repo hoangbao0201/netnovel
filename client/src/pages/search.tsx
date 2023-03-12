@@ -2,24 +2,23 @@ import { ReactNode } from "react";
 import { GetServerSideProps } from "next";
 import { NextPageWithLayout } from "./_app";
 
-import { NovelType } from "@/types";
 import WrapperContent from "@/components/Layouts/WrapperContent";
 import MainLayout from "@/components/Layouts/MainLayout";
 import FormSearch from "@/components/Shared/FormSearch";
 import { OPTIONS_ARRANGE_NT, OPTIONS_CATEGORY_NT } from "@/constants";
 
 interface SearchPageProps {
-    novels?: NovelType[];
+    query?: any;
 }
 
-const SearchPage: NextPageWithLayout = ({ novels }: SearchPageProps) => {
+const SearchPage: NextPageWithLayout = ({ query }: SearchPageProps) => {
 
-    console.log(novels)
+    // console.log(query)
 
     return (
         <>
             <WrapperContent>
-                <FormSearch />
+                <FormSearch queryOptions={query}/>
             </WrapperContent>
         </>
     );
@@ -27,14 +26,27 @@ const SearchPage: NextPageWithLayout = ({ novels }: SearchPageProps) => {
 
 export const getServerSideProps : GetServerSideProps = async ({ query }) => {
 
-    const { category, arrange, personality, scene, classify, viewframe } = query
+    const { genres, personality, scene, classify, sort, status, gender, numberchapter } : any = query
 
-    const realCategory = OPTIONS_CATEGORY_NT.find((item) => String(item.id) == category)?.value
-    const realArrange = OPTIONS_ARRANGE_NT.find((item) => String(item.id) == arrange)?.value
+    // const realCategory = OPTIONS_CATEGORY_NT.find((item) => String(item.id) == category)?.value
+    // const realArrange = OPTIONS_ARRANGE_NT.find((item) => String(item.id) == arrange)?.value
+
+    // const realGenres = genres ? genres.split(",").map((num : string) => Number(num)) : null
+    // const realNotGenres = notgenres ? notgenres.split(",").map((num : string) => Number(num)) : null
 
     return {
         props: {
-            novels: { realCategory: realCategory || null, realArrange: realArrange || null } || null
+            query: {
+                genres: genres || null,
+                personality: personality || null,
+                scene: scene || null,
+                classify: classify || null,
+                
+                sort: sort || null,
+                status: status || null,
+                gender: gender || null,
+                numberchapter: numberchapter || null,
+            }
         }
     }
 }
