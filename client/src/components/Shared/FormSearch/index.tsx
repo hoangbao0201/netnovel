@@ -183,7 +183,7 @@ const FormSearch = ({ queryOptions } : any) => {
                         </div>
                         
                         <div className={cx("title-checkbox")}>Thể loại</div>
-                        <div className={cx("list-checkbox")}>
+                        <div className={cx("list-checkbox", "genres")}>
                             {/* GENRES */}
                             {
                                 OPTIONS_CATEGORY_NT.map((item) => {
@@ -202,7 +202,7 @@ const FormSearch = ({ queryOptions } : any) => {
                         </div>
 
                         <div className={cx("title-checkbox")}>Tính cách nhân vật chính</div>
-                        <div className={cx("list-checkbox")}>
+                        <div className={cx("list-checkbox", "personality")}>
                             {/* PERSONALITY */}
                             {
                                 OPTIONS_PERSONALITY_NT.map((item) => {
@@ -221,7 +221,7 @@ const FormSearch = ({ queryOptions } : any) => {
                         </div>
 
                         <div className={cx("title-checkbox")}>Bối cảnh thế giới</div>
-                        <div className={cx("list-checkbox")}>
+                        <div className={cx("list-checkbox", "scene")}>
                             {/* SCENE */}
                             {
                                 OPTIONS_SCENE_NT.map((item) => {
@@ -240,7 +240,7 @@ const FormSearch = ({ queryOptions } : any) => {
                         </div>
 
                         <div className={cx("title-checkbox")}>Lưu phái</div>
-                        <div className={cx("list-checkbox")}>
+                        <div className={cx("list-checkbox", "classify")}>
                             {/* CLASSIFY */}
                             {
                                 OPTIONS_CLASSIFY_NT.map((item) => {

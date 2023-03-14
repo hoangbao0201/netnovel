@@ -1,4 +1,5 @@
 import { Request, Response } from "express";
+import { convertQueryAdvanted } from "../utils/convertQueryAdvanted";
 import { createNovelHandle, createNovelStealHandle, getNovelBySlugHandle, getNovelByTitleHandle, getNovelsByUserIdHandle, getNovelsHandle } from "../services/novel.service";
 
 
@@ -156,6 +157,44 @@ export const getNovelByTitle = async (req: Request, res: Response) => {
             message: "Get novels successful",
             novels: novels
             // novels: req.params.query || null
+        })
+    } catch (error) {
+        return res.status(500).json({
+            success: false,
+            message: `Internal server error ${error}`,
+        });
+    }
+}
+
+export const getNovelsAdvancedSearch = async (req: Request, res: Response) => {
+    try {
+
+        const { genres, personality, scene, classify, sort, status, gender, numberchapter } : any = req.query
+        const newQuery = convertQueryAdvanted({ 
+            genres,
+            personality,
+            scene,
+            classify,
+            sort,
+            status,
+            gender,
+            numberchapter
+        })
+
+        return res.json({
+            success: true,
+            message: "Get novels successful",
+            newQuery: newQuery
+            // novels: {
+            //     genres: genres || null,
+            //     personality: personality || null,
+            //     scene: scene || null,
+            //     classify: classify || null,
+            //     sort: sort || null,
+            //     status: status || null,
+            //     gender: gender || null,
+            //     numberchapter: numberchapter || null
+            // }
         })
     } catch (error) {
         return res.status(500).json({

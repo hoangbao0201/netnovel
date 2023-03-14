@@ -1,4 +1,4 @@
-export const REVALIDATE_TIME = 3 * 60 * 60;
+
 
 export const GENRES_NT = [
     {id: 1, value: "Tất cả", slug: "truyen"},
@@ -14,6 +14,10 @@ export const GENRES_NT = [
     {id: 11, value: "Kiếm Hiệp", slug: "genre=11"},
     {id: 12, value: "Kỳ Ảo", slug: "genre=12"},
 ]
+
+// export const query = "5, 7, 11"
+
+// chuyển query thành ["Võng Du", "Đồng Nhân", "Kiếm Hiệp"]
 
 export const RANK_NT = [
     { id: "13", value: "Thịnh hành", slug: "thinh-hanh" },
@@ -179,3 +183,117 @@ export const OPTIONS_NUMBERCHAPTER_NT = [
     { id: 128, value: ">= 400 chapter", label: ">= 400 chapter" },
     { id: 129, value: ">= 400 chapter", label: ">= 400 chapter" },
 ]
+
+export const convertQueryAdvanted = (query: any) => {
+
+    let cvQuery = {
+        genres: [],
+        personality: [],
+        scene:[],
+        classify: [],
+        sort: [],
+        status: [],
+        gender: [],
+        numberchapter: []
+    }
+
+    if(query.genres) {
+        const queryGenres = query.genres.split(",")
+            .map((id : any) => {
+                return GENRES_NT.find((item : any) => {
+                    return item.id === parseInt(id)
+                })?.value
+            })
+        cvQuery = {
+            ...cvQuery,
+            genres: queryGenres
+        }
+    }
+    if(query.personality) {
+        const queryPersonality = query.personality.split(",")
+            .map((id : any) => {
+                return OPTIONS_PERSONALITY_NT.find((item : any) => {
+                    return item.id === parseInt(id)
+                })?.value
+            })
+        cvQuery = {
+            ...cvQuery,
+            personality: queryPersonality
+        }
+    }
+    if(query.scene) {
+        const queryScene = query.scene.split(",")
+            .map((id : any) => {
+                return OPTIONS_SCENE_NT.find((item : any) => {
+                    return item.id === parseInt(id)
+                })?.value
+            })
+        cvQuery = {
+            ...cvQuery,
+            scene: queryScene
+        }
+    }
+    if(query.classify) {
+        const queryClassify = query.classify.split(",")
+            .map((id : any) => {
+                return OPTIONS_CLASSIFY_NT.find((item : any) => {
+                    return item.id === parseInt(id)
+                })?.value
+            })
+        cvQuery = {
+            ...cvQuery,
+            classify: queryClassify
+        }
+    }
+    if(query.sort) {
+        const querySort = query.sort.split(",")
+            .map((id : any) => {
+                return OPTIONS_ARRANGE_NT.find((item : any) => {
+                    return item.id === parseInt(id)
+                })?.value
+            })
+        cvQuery = {
+            ...cvQuery,
+            sort: querySort
+        }
+    }
+    if(query.status) {
+        const queryStatus = query.status.split(",")
+            .map((id : any) => {
+                return OPTIONS_STATUS_NT.find((item : any) => {
+                    return item.id === parseInt(id)
+                })?.value
+            })
+        cvQuery = {
+            ...cvQuery,
+            status: queryStatus
+        }
+    }
+    if(query.gender) {
+        const queryGender = query.gender.split(",")
+            .map((id : any) => {
+                return OPTIONS_GENDER_NT.find((item : any) => {
+                    return item.id === parseInt(id)
+                })?.value
+            })
+        cvQuery = {
+            ...cvQuery,
+            gender: queryGender
+        }
+    }
+    if(query.numberchapter) {
+        const queryNumberChapter = query.numberchapter.split(",")
+            .map((id : any) => {
+                return OPTIONS_NUMBERCHAPTER_NT.find((item : any) => {
+                    return item.id === parseInt(id)
+                })?.value
+            })
+        cvQuery = {
+            ...cvQuery,
+            numberchapter: queryNumberChapter
+        }
+    }
+
+
+    return cvQuery;
+}

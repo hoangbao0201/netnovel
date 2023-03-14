@@ -26,9 +26,27 @@
         font-weight: 600;
     }
     .list-checkbox {
+        display: flex;
         display: grid;
-        grid-template-columns: repeat(6,minmax(0,1fr));
+        // flex-wrap: wrap;
         margin-bottom: 20px;
+        grid-template-columns: repeat(6,minmax(0,1fr));
+
+        &.genres {
+            grid-template-columns: repeat(11,minmax(0,1fr));
+        }
+        &.personality {
+            grid-template-columns: repeat(11,minmax(0,1fr));
+        }
+        &.scene {
+            grid-template-columns: repeat(6,minmax(0,1fr));
+        }
+        &.classify {
+            grid-template-columns: repeat(11,minmax(0,1fr));
+        }
+        // .item-checkbox {
+        //     float: left;
+        // }
     }
 }
 
